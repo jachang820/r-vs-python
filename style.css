@@ -1,0 +1,97 @@
+#container {
+	margin-left: 75px;
+	width: 92vw;
+}
+
+#nav-expand {
+	position: fixed;
+	height: 100vh;
+	width: 300px;
+	background-color: white;
+	border-right: 1px solid black;
+	box-shadow: 10px 0px 5px grey;
+	top: 0px;
+	left: -250px;
+	z-index: 100;
+	transition: left 2s, box-shadow 2s;
+}
+
+#nav-leaf {
+	position: absolute;
+	height: 100vh;
+	width: 50px;
+	background-color: #fee;
+	box-shadow: -5px 0px 5px #fee;
+	top: 0px;
+	left: 250px;
+}
+
+#nav-arrow {
+	height: 30px;
+	width: 30px;
+	position: absolute;
+	top: calc(50% - 30px);
+	left: 10px;
+	transition: transform 2s;
+}
+
+#nav-expand:hover {
+	left: 0px;
+	box-shadow: 0px 0px 0px grey;
+}
+
+nav {
+	position: absolute;
+	height: 100vh;
+	width: 225px;
+	top: 0px;
+	left: 0px;
+	word-wrap: break-word;
+}
+
+nav ul li:hover {
+	background-color: #eee;
+}
+
+.title {
+	text-transform: uppercase;
+	font-family: "Arial";
+	font-weight: bold;
+	color: #ffd;
+	background-color: #369;
+}
+
+.lang {
+	margin: 5px;
+	border: 1px solid black;
+	width: 42vw;
+	float: left;
+	padding: 0px;
+}
+
+#intro {
+	width: 80vw;
+	margin: 10px;
+}
+
+code {
+	font-size: 80%;
+}
+
+.line-numbers-rows {
+	top: -1px;
+	font-size: 100%;
+	line-height: 1.505;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+	-moz-tab-size: 2;
+	-o-tab-size: 2;
+	tab-size: 2;
+	padding-bottom: 5px;
+}
+
+.name {
+	font-style: italic;
+}

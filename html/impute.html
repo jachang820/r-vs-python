@@ -1,0 +1,20 @@
+<p>Imputation attempts to solve the problem of filling in missing values in 
+	in the data frame. Imputing the mean value is almost never appropriate, 
+	since it disregards the underlying correlation structure. Other common 
+	methods are, for example, kNN (K-nearest neighbors), FKM (fuzzy K-means), 
+	SVD (singular value decomposition), bPCA (Bayesian principal component 
+	analysis), and MICE (multiple imputations by chained equations). MICE is 
+	much more complex and performs well with small datasets, but inconsistently 
+	with larger ones. Perhaps, bPCA and FKM are better performers all around (<a 
+	href="https://www.omicsonline.org/open-access/a-comparison-of-six-methods-for-missing-data-imputation-2155-6180-1000224.php?aid=54590">source</a>).
+</p>
+<p>The easiest method may be to simply drop examples with missing values,
+	although this may be inappropriate since it may delete important data.
+</p>
+<p>The example below demonstrates 3 methods:
+	<ul>
+		<li>Dropping missing values</li>
+		<li>Imputing the mean</li>
+		<li>Imputing with MICE, with 100 imputations.</li>
+	</ul>
+</p>

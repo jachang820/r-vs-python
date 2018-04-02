@@ -1,0 +1,15 @@
+<p>When a feature is categorical, there are two pitfalls that a machine 
+	learning system could fall into, so we perform these steps to indicate, 
+	as necessary, to the computer that the data is to be seen as categorical. 
+	<ol>
+		<li>The machine could get distracted by the letters in a name and think 
+			that there is some significance. We solve this by converting the names
+		into numerical categories, or factors.</li>
+		<li>The machine could, then, get distracted by the ordering of numbers and 
+			think that there is some kind of superiority between the factors. We 
+			solve this by using one-hot encoding, or separating one feature with n 
+			factors into n Boolean features, such that the value is True if the 
+			example is of that category. Note that factors in R take care of this by 
+		default.</li>
+	</ol>
+</p>

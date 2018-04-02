@@ -1,0 +1,23 @@
+<p>Machine learning models typically learn a hypothesis on a "training" set, 
+	then applies the hypothesis in attempt to predict values that are not in 
+	the set. Since we wish to test that out-of-sample prediction, we split our 
+	data into the training and "test" set. Ideally, we would want as much of 
+	the data as possible to go into training the hypothesis, since this improves 
+	accuracy and reduces the chance of overfitting. However, if the test set is
+	smaller, then it will have greater variance. Therefore, we need to pick an
+	appropriate split between training and test set.
+</p>
+<p>For smaller datasets, splitting the dataset into training and test sets of 
+	80/20 or 70/30, respectively, is typical. For larger datasets, we may want
+	to use a smaller training set to reduce computational complexity; or, in 
+	fact, more could go into the training set to minimize variance in the 
+	hypothesis. For example, 80/20 split is appropriate for datasets with 1,000 
+	examples, but 95/5 might suffice for datasets with 100,000 examples.
+</p>
+<p>Typically, the training set is split, again, to produce a "validation" set. 
+	We find the best hypothesis against the validation set, then check against 
+	the test set to determine improvements in accuracy. This decreases chance of 
+	overfitting. We might also use K-Folds Cross-Validation, such as to create 
+	K training and validation set splits, testing the hypothesis against each 
+	and taking some kind of average. This allows us to maximize data used for 
+	training, which is especially crucial for smaller datasets.</p>

@@ -1,0 +1,43 @@
+<p>Linear regression fits a straight line through the means of each input feature. In almost all cases, data isn't perfectly linear. Consider a simple linear equation in slope-intercept form \(y = ax+b\). If all data fits on this line, then we could say that, equivalently, \(y - (ax + b) = 0\). Since data isn't perfectly linear, there is a small error we call the <span class="name">residual</span>, such that \(r = y - (ax + b)\). We generalize this formula to <span class="name">n</span> dimensions, each representing a feature.</p>
+
+$$y - (w_1 x_1 + \dots + w_n x_n + b) = r$$
+
+<p>\(h(w) = w_1 x_1 + \dots + w_n x_n + b\) is called the <span class="name">hypothesis</span>. The variable that represents these dimensions are called regressors, or prediction variables, \(x_1 \dots x_n\). The dependent variable, \(y\), is called the regressand, or response variable. We use the superscript in parentheses notation to represent the example number of a particular point, such that \(x^{(i)}_1\) and \(y^{(i)}\) represents the first predictor variable and response variable of the \(i\)th training example. There are a total of \(m\) training examples. \(w\) represents the parameters that we must train to obtain the right slope.</p>
+
+<p>In order to simplify the equation, we can vectorize the equation.</p>
+
+$$y - (w^T x + b) = r$$
+
+<p>We may also combine the bias into the parameters, so that \(b = w_0\) and \(x_0 = 1\), in order to simplify calculations. We define the vectors \(\theta = [b w]\) and \(\widetilde{x} = [1 x]\). The resultant equation becomes</p>
+
+$$y - \theta^T \widetilde{x} = r$$
+
+<p>The objective is the linear regression is this. There are optimal parameters \(\theta^{*}\) such that \(r\) is minimized. Therefore, we must train the model in order to obtain \(\theta^{*}\) and predict future values with this regression line. It makes sense, then, that we could also name our best hypothesis \(y_{pred}\), or \(\hat{y} = \theta^{*T} \widetilde{x}\). Note that since we can never know the actual function that fits all the points, it is also impossible to know the best possible hypothesis. Nevertheless, we try to get as close as possible.</p>
+
+<p>Here, we apply a little mathematical trick to simplify our calculation of \(\hat{y}\). The residual function \(r = y - \hat{y}\) is linear, and it is difficult to find the fixed point of a line. If we square the cost, it becomes a parabola \(r^2 = (y - \hat{y})^2\), where the global minimum is such that \(\frac{dr}{dy} = 0\). Squaring the residual does not change the minimum, but it makes it more obvious. We some scaling, we have the <span class="name">mean square error</span> function.</p>
+
+$$\mathrm{MSE} = \frac{1}{m} \sum_{i=1}^m (y^{(i)} - \hat{y}^{(i)})^2$$
+
+<p>Since scaling doesn't change the minimum either, we can scale as we wish to make calculations easier. Therefore, we make our <span class="name">cost function</span> and its derivative</p>
+
+$$\begin{align}J_x (\theta) & = \frac{1}{2m} \sum_{i=1}^m (y^{(i)} - \theta^{*T} \widetilde{x}^{(i)})^2 \\ \frac{\partial J}{\partial \theta_j} & = \frac{1}{m} \sum_{i=1}^m (y^{(i)} - \theta^{*T} \widetilde{x}^{(i)}) (-\widetilde{x}^{(i)}_j) (j = 1, \dots, n) \end{align}$$
+
+<p>At this point, we can solve for the minimum as an <span class="name">ordinary least squares (OLS)</span> estimator using <span class="name">normal equations</span> by setting the derivative to 0 and rearranging.</p>
+
+$$\begin{align} \frac{\partial J}{\partial \theta_j} = 0 & = \frac{1}{m} \sum_{i=1}^m (y^{(i)} - \theta^{*T} \widetilde{x}^{(i)}) (-\widetilde{x}^{(i)}_j) (j = 1, \dots, n)\\ \sum_{i=1}^m \widetilde{x}^{(i)}_j y^{(i)} & = \sum_{i=1}^m \sum_{k=1}^n \widetilde{x}^{(i)}_j \widetilde{x}^{(i)}_k \theta^{*}_j \\ (\tilde{X}^T \tilde{X}) \theta^{*} & = \tilde{X}^T y \\ \theta^{*} & = (\tilde{X}^T \tilde{X})^{-1} \tilde{X}^T y \end{align}$$
+
+<p>The optimal parameters, therefore, is also the <span class="name">Moore-Penrose pseudo-inverse</span> of the regressand. While this method is guaranteed to find the optimal parameters, it is rarely used in practical machine learning, where the dataset is usually large and sparse. The problem is that the OLS method involves inverting matrices, which is an O(\(\frac{1}{3}mn^2\)) operation, at the very least, if we use <span class="name">Cholesky factorization</span>. An alternative, iterative method like <span class="name">gradient descent</span>, while not guaranteed to find the optimal minimum, is O(\(mn\)), a much more reasonable complexity when dealing with large datasets. Gradient descent randomly initializes \(\theta\), and then iteratively updates it.</p>
+
+$$\theta_{j,t+1} = \theta_{j,t} - \alpha \frac{\partial J}{\partial \theta_j}$$
+
+<p>\(\alpha\) is called the <span class="name">learning rate</span>, an empirical small number used to reduce step size, and prevent overshooting the minimum. A good \(\alpha\) is found by trial and error, although a typical value might be on the order of 0.01. The iterative process stops when the update is sufficiently small, due to a small slope. For instance, it might stop when \(\theta_{j,t+1} - \theta_{j,t} \leq 10^{-6}\).</p>
+
+<p>Despite its popularity due to its simplicity, linear regression is limited in its use, and requires 5 assumptions:
+	<ul>
+		<li>Linearity - the mean response is a linear combination of the predictors and parameters.</li>
+		<li>Homoscedasticity - the values of the response has same variance as their errors regardless of the predictor variables.</li>
+		<li>Weak exogeneity - the predictor variables are treated as fixed, non-random variables, and assumed not to be contaminated with measurement errors.</li>
+		<li>Independence of errors - errors of the variables are uncorrelated with each other.</li>
+		<li>Non-multicollinearity - the matrix \(X\) in OLS must have full column rank, such that each feature must be linearly independent.</li>
+	</ul>
+</p>

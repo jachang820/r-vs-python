@@ -1,0 +1,17 @@
+<p>Machine learning algorithms often try to find the Euclidean distance 
+	between points. Therefore, features with large variances will tend to 
+	dominate and produce higher weights. For example, when looking at housing 
+	data, the year the house was built might range from, say, 1950-2012, but 
+	the square footage might range from, say, 1500-5000. A priori, the 
+	square footage is not necessarily more important than the year, yet a 
+	5000 sq. ft. might have more weight on a regression line than 2012, since 
+	it is further from the mean.</p>
+<p>We solve this by scaling each feature such that they have the same 
+	center and scale. Since the test set should be scaled the same as the training set to preserve similarity, the scaler is fitted only to the training set, but transforms both training and test sets. Scaling is not necessary for the dependent variable. Specifically, a scaled featured is</p>
+<p>$$x_{scaled} = \frac{x-\mu}{\sigma}$$, where \(\mu\) is the mean, and \(\sigma\) is the standard deviation.</p>
+<p>Subtracting the mean centers a feature. Dividing by the standard deviation scales it. Note that, expanded, the equation becomes</p>
+<p>$$x_{scaled} = \frac{x-\frac{\sum_i x_i}{n}}{\sqrt{\frac{\sum_i \left(x_i-\frac{\sum_i x_i}{n}\right)}{n-1}}}$$</p>
+<p>A simpler alternative to standardization is normalization, which is sometimes used.In Python, it uses the library <span class="name">preprocessing.MinMaxScaler
+</span>.</p>
+<p>$$x_{scaled} = \frac{x-\mathrm{min}(x)}{\mathrm{max}(x)-\mathrm{min}(x)}$$</p>
+<p>Many machine learning algorithm libraries apply scaling by default, but some do not. Care must be taken in noting when manually scaling is necessary.</p>
