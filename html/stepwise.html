@@ -1,0 +1,29 @@
+<p>There are many metrics used to decide which feature to keep in the model, such as p-values, \(R^2\) or adjusted \(R^2\). Stepwise regression is an algorithm to programmatically select these features. There are two steps: forward selection and backward elimination. Either of these steps also stand alone. The Python example below uses only p-values as a metric, but the R example uses a library with combined metrics. Given two constants <span class="code">SL_STAY</span> representing the p-value threshold for a feature to stay in the model, and <span class="code">SL_ENTER</span> representing the p-value threshold for a feature to enter the model,</p>
+<ol>
+	<li>Perform a single iteration of forward selection.</li>
+	<li>Perform all iterations of backward elimination.</li>
+	<li>Repeate steps 1. and 2. until no more changes are made.</li>
+</ol>
+
+<h2>Forward selection</h2>
+Given an initial list of all the features,
+<ol>
+	<li>Construct a model with the features in the list.</li>
+	<li>If the feature with the lowest p-value has a p-value less than <span class="code">SL_ENTER</span>, then remove the feature from the list, and include it in the optimal model.</li>
+	<li>Repeat steps 1. and 2. until no more features can enter the optimal model.</li>
+</ol>
+
+<h2>Backward elimination</h2>
+Given an initial list of all the features,
+<ol>
+	<li>Construct an optimal model with the features in the list.</li>
+	<li>If the feature with the highest p-value has a p-value greater than <span class="code">SL_STAY</span>, then remove the feature from the list and and the optimal model.</li>
+	<li>Repeat steps 1. and 2. until no more features are removed from the optimal model.</li>
+</ol>
+
+<p>There are several caveats (<a href="https://www.stata.com/support/faqs/statistics/stepwise-regression-problems/">source</a>):</p>
+<ul>
+	<li>If there are redundant predictors that are not independent, such that statistical significance of one variable is affected by another, then stepwise methods will not necessarily produce the best model. This is a common problem.</li>
+	<li>It is difficult to heuristically explain why certain features are significant. Sometimes, a feature depends on other term, which is noticeable when manually selected. Stepwise regression risks selecting on chance features.</li>
+	<li>Increasing the sample size does not help much.</li>
+	<li>Some features have \(R^2\) biased to be high, which makes them more likely to be selected.</li>

@@ -7,9 +7,15 @@
 		into numerical categories, or factors.</li>
 		<li>The machine could, then, get distracted by the ordering of numbers and 
 			think that there is some kind of superiority between the factors. We 
-			solve this by using one-hot encoding, or separating one feature with n 
-			factors into n Boolean features, such that the value is True if the 
+			solve this by using one-hot encoding, or separating one feature with \(n\) 
+			factors into \(n\) Boolean features, such that the value is True if the 
 			example is of that category. Note that factors in R take care of this by 
 		default.</li>
 	</ol>
 </p>
+
+<p>Note that while most libraries take care of it by default, there is a <span class="name">dummy variable trap</span> that must be avoided. A requirement for models like linear regression is the lack of multi-collinearity. Since all the dummy one-hot features created from a category is inter-dependent, each feature could be described by the other features, such that</p>
+
+$$ x_i = 1 - (x_1 + \dots + x_{i-1} + x_{i+1} + \dots + x_n) $$
+
+<p>The solution is to remove one of the one-hot dummy variables (it doesn't matter which one).</p>

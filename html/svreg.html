@@ -1,0 +1,147 @@
+<h2>Optimal margins</h2>
+
+<p>Support vector regression (SVR) takes the popular classification algorithm <span class="name">Support vector machine (SVM)</span> and makes some small changes to support regression. The idea is that we want to find a regression \(\hat{y} = w^T x + b\) that maximizes support vectors \(\hat{y} \pm \varepsilon \), which are parallel to \(\hat{y}\) and intersects the furthest points. Intuitively, the best estimate should have the maximum possible \(\varepsilon\). The points that intersect the support vectors are called <span class="name">supports</span>.</p>
+
+<p>Note that in typical linear regression, we use the least squares regression, such that distance from the regression is measured within each dimension. However, since support vectors are parallel to the regression, we must use the geometric distance, which is the length of the vector orthogonal to \(\hat{y}\). This happens to be the parameter \(w\), and the unit vector is \(\frac{w}{||w||}\), such that \(\left(\frac{w}{||w||}\right)^T x^{(i)}\) is the distance from the regression to \(x^{(i)}\) orthogonal to the line. Therefore, the geometric estimate is</p>
+
+$$y^{(i)} - \left(\left(\frac{w}{||w||}\right)^T x^{(i)} + \frac{b}{||w||}\right) = r^{(i)}$$
+
+<p>When \(||w||=1\), the geometric estimate is equivalent to the least squares estimate</p>
+
+$$y^{(i)} - (w^T x^{(i)} + b) = r^{(i)}$$
+
+<p>Since scaling doesn't affect the model, we assume this to be the case(\(||w||=1\)). The constraints to support vector regression are, therefore, as such.</p>
+
+$$
+\begin{align}
+\mathrm{max} (\varepsilon) \hspace{5mm} {s.t.} \hspace{5mm} & |y^{(i)} - (w^T x^{(i)} +b)| \leq \varepsilon \\
+& ||w|| = 1
+\end{align}
+$$
+
+<p>However, \(||w||=1\) is non-convex and particularly hard to solve, so without changing the problem, we could remove this constraint by dividing the problem by \(||w||\).</p>
+
+$$
+\mathrm{max} \left(\frac{\varepsilon}{||w||}\right) \hspace{5mm} {s.t.} \hspace{5mm} |y^{(i)} - (w^T x^{(i)} +b)| \leq \varepsilon
+$$
+
+<p>\(\frac{\varepsilon}{||w||}\) is still non-convex, and isn't any easier to solve. Keeping in mind, however, that scaling does not affect our model, let us assume that \(\varepsilon = 1\), with respect to the training set. Now, we want to maximize \(\frac{1}{||w||}\), and we see that this is equivalent to minimizing \(||w||^2\). Therefore, scaling again to make calculation easier, the problem becomes</p>
+
+$$
+\mathrm{min} \left(\frac{1}{2}||w||^2\right) \hspace{5mm} {s.t.} \hspace{5mm} |y^{(i)} - (w^T x^{(i)} +b)| \leq 1
+$$
+
+<p>This form of the problem is known as the <span class="name">optimal margin regression</span>, and can be solved with commercially available quadratic programming code. The next step of our discussion takes us to kernels.</p>
+
+<h2>Kernels</h2>
+
+In order for us to derive an efficient solution, we must look at the <span class="name">dual problem</span>, an equivalent problem stated differently. We start by defining the <span class="name">Lagrangian</span>.
+
+$$\mathcal{L}(w, \alpha) = f(w) + \sum_{i=1}^k \alpha_i g_i (w)$$
+
+<p>\(\alpha_i\) are called <span class="name">Lagrange multipliers</span>. We can solve for \(w\) and \(\alpha\) by solving the partial derivatives.</p>
+
+$$
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial w_i} & = 0 \\
+\frac{\partial \mathcal{L}}{\partial \alpha_i} & = 0 
+\end{align}
+$$
+
+<p>The primal optimization problem is then</p>
+
+$$\mathrm{min} (f(w)) \hspace{5mm} {s.t.} \hspace{5mm} g_i (w) \leq 0$$
+
+<p>If the constraint, \(g_i (w) = y^{(i)} - (w^T x^{(i)} + b) + 1 \geq 0\) and \(g_i (w) = -y^{(i)} + (w^T x^{(i)} + b) + 1 \geq 0\), then the Lagrangian for the primal problem is</p>
+
+$$
+\begin{align}
+\mathcal{L}(w, \alpha) & = \frac{1}{2}||w||^2 + \sum_{i=1}^m \alpha_i (y^{(i)} - w^T x^{(i)} - b - 1) - \sum_{i=1}^m \hat{\alpha}_i (y^{(i)} - w^T x^{(i)} - b - 1) \\
+& = \frac{1}{2}||w||^2 + \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) (y^{(i)} - w^T x^{(i)} - b - 1)
+\end{align}
+$$
+
+$$
+\begin{align}
+\nabla_w \mathcal{L}(w, b, \alpha) & = w - \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) x^{(i)} = 0 \\
+\nabla_b \mathcal{L}(w, b, \alpha) & = \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) = 0
+\end{align}
+$$
+<p>implies that </p>
+
+$$w = \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) x^{(i)}$$
+
+<p>Plugging this back into the Lagrangian, we derive the dual problem.</p>
+
+$$
+\begin{align}
+\mathrm{max}_{\alpha} \hspace{5mm} & \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) y^{(i)} - \frac{1}{2} \sum_{i,j=1}^m (\alpha_i - \hat{\alpha}_i) (\alpha_j - \hat{\alpha}_j) \left(x^{(i)}\right)^T x^{(j)} \\
+{s.t.} \hspace{5mm} & \alpha_i \geq 0, \hspace{5mm} i=1, \dots, m \\
+& \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i)= 0
+\end{align}
+$$
+
+<p>We could also plug in \(w\) to obtain</p>
+
+$$
+\begin{align}
+y = w^T x + b & = \left(\sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) x^{(i)} \right)^T x + b \\
+& = \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) \left(x^{(i)}\right)^T x + b
+\end{align}
+$$
+
+<p>This is known as the <span class="name">linear SVR</span>. But in general, support vector regressions aren't necessarily linear. It is possible to transform the data with a non-linear <span class="name">kernel</span> function, \(\varphi(x)\).</p>
+
+$$
+\begin{align}
+y & = \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) \varphi\left(x^{(i)}\right)^T \varphi(x) + b \\
+& = \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) K\left(x^{(i)}, x\right) + b
+\end{align}
+$$
+
+<p>What the dual function elucidates (the derivation isn't shown) is that all \(\alpha = 0\) besides the supports. Since supports are a small subset of the overall data, this greatly reduces calculation complexity. It also suggests that we don't need to calculate \(K\left(x^{(i)}, x\right)\). This is called the <span class="name">kernel trick</span>. There are numerous functions that satisfy the kernel, with the primary condition that the kernel (Gramm) matrix must be positive semi-definite.</p>
+
+<p>Examples of kernels \(K(x_i, x_j)\) are:</p>
+<ul>
+	<li>Polynomial. \((\gamma(x_i, x_j)+r)^d\)</li>
+	<li>Gaussian Radial Basis function (RBF). \(\textrm{exp}\left(-(\gamma ||x_i-x_j||)^2\right)\)</li>
+	<li>Laplacian. \(\textrm{exp}\left(-\gamma||x_i-x_j||\right)\)</li>
+	<li>ANOVA. \(\sum_{k=1}^n \textrm{exp}(-\frac{1}{\gamma}(x^k_i - x^k_j)^2)^d\)</li>
+	<li>Sigmoid. \(\textrm{tanh}(\gamma x_i^T x_j + r)\)</li>
+	<li>And many more...</li>
+</ul>
+
+<p>\(\gamma\) is the inverse of standard deviation \(\frac{1}{\sigma}\), specified by the <span class="code">gamma</span> optional parameter in the Python library. The degree \(d\) is specified by <span class="code">degree</span>, and bias \(r\) is specified by <span class="code">coef0</span>.</p>
+
+<p>The example code below are implemented with RBF, which is an all-around good choice for smooth functions.</p>
+
+<h2>Soft SVR</h2>
+
+<p>Instead of trying to model outliers, which may distort the outcome due to noise, a certain tolerance is given outside of the margins, with the distance denoted by the slack variables \(\xi\) and \(\hat{\xi}\), above and below the margins respectively. We introduce the hyperparameter \(C \in [0, 1]\) as the penalty weight. The primal form becomes</p>
+
+$$
+\begin{align}
+\mathrm{min} & \left(\frac{1}{2}||w||^2 + C\sum_{i=1}^n (\xi + \hat{\xi})\right) \hspace{5mm} {s.t.} \\ 
+& y^{(i)} - (w^T x^{(i)} +b) \leq 1 + \xi \\
+& (w^T x^{(i)} + b) - y^{(i)} \leq 1 + \hat{\xi} \\
+& \xi, \hat{\xi} \geq 0
+\end{align}
+$$
+
+<p>And the dual form becomes</p>
+
+$$
+\begin{align}
+\mathrm{max}_{\alpha} \hspace{5mm} & \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) y^{(i)} - \frac{1}{2} \sum_{i,j=1}^m (\alpha_i - \hat{\alpha}_i) (\alpha_j - \hat{\alpha}_j) \left(x^{(i)}\right)^T x^{(j)} \\
+{s.t.} \hspace{5mm} & \alpha_i \geq 0, \hspace{5mm} i=1, \dots, m \\
+& \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i)= 0 \\
+& 0 \leq \alpha_i \leq C
+\end{align}
+$$
+
+<h2>Feature scaling</h2>
+
+The assumptions behind SVR necessitates that we scale the predictors such that \(||w||=1\). However, since the response is dependent only on the support and points beyond the margin, scaling the predictors change the points that fall within the penalty. In Python, the \(\epsilon\) margin <span class="code">epsilon</span> defaults to 0.1. Therefore, in order for the problem to remain the same, we must also scale the response. The response must then be inversely scaled during prediction so we obtain a more meaningful result. R scales by default.</p>
+
+
+<p>Another solution would be to adjust the margin \(\epsilon\) appropriately. One method to do this is <span class="name">grid search</span>. Grid search constructs a grid of possible hyperparameter values and finds the best cross-validation score.</p>

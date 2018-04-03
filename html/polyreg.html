@@ -1,0 +1,37 @@
+<p>Polynomial linear regression is conducted in the same way a regular linear regression is, except the regressors are replaced by a polynomial basis.</p>
+
+$$[1, x] \rightarrow [1, x, x^2, \dots, x^d]$$
+
+<p>When all the features are taken into account, this produces a stacked matrix that can be solved by ordinary least squares in the same way that regular linear regression can.</p>
+
+$$
+\begin{equation}
+	\begin{bmatrix} 
+		1 & x_1 & x^2_1 & \cdots & x^m_1 \\
+		1 & x_2 & x^2_2 & \cdots & x^m_2 \\
+		\vdots & \vdots & \ddots & \vdots \\
+		1 & x_n & x^2_n & \cdots & x^m_n
+	\end{bmatrix} \begin{bmatrix}
+		\theta_0 \\ \theta_1 \\ \theta_2 \\ \vdots \\ \theta_m
+	\end{bmatrix} - 
+	\begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix} =
+	\begin{bmatrix}
+		r_1 \\ r_2 \\ \vdots \\ r_n
+	\end{bmatrix}
+\end{equation}
+$$
+
+<p>This is reduced to the normal equation \(\theta^{*} = (\tilde{X}^T \tilde{X})^{-1} \tilde{X}^T y\), where the polynomial matrix \(\tilde{X}\), as pictured above, is known as the <span class="name">Vandermonde matrix</span>. Although the regressors are in a polynomial basis, the estimation problem is still a linear combination of all the terms; therefore, it is still a linear regression.</p>
+
+<p>The interpretation depicted above would be implemented by the <span class="code">poly()</span> function in R. The code featured below uses the <span class="code">polym()</span> function, which gives the more general interpretation matched by Python's <span class="code">PolynomialFeatures</span> class.</p>
+
+For example, given two features \(x_1\) and \(x_2\),
+
+$$
+\begin{align}
+[1, x_1, x_2]^2 & \rightarrow [1, x_1, x_2, x^2_1, x_1 x_2, x^2_2] \\
+[1, x_1, x_2]^3 & \rightarrow [1, x_1, x_2, x^2_1, x_1 x_2, x^2_2, x^2_1 x_2, x_1 x^2_2, x^3_1, x^3_2]
+\end{align}
+$$
+
+The functions in R have an additional optional parameter <span class="code">raw</span> (default value is <span class="code">FALSE</span>) that is worth explaining. When set to <span class="code">FALSE</span>, only the polynomial combinations in which the regressors are orthogonal are kept, such that each feature contains only new information. If set to <span class="code">TRUE</span>, the function will keep all combinations regardless of orthogonality, but it might increase multicollinearity.

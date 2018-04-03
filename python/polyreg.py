@@ -15,6 +15,7 @@ from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_poly, y, test_size=0.2)
 
 # Fit polynomial linear regression to training set
+from sklearn.linear_model import LinearRegression
 poly_model = LinearRegression()
 poly_model.fit(X_train, y_train)
 
