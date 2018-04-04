@@ -11,7 +11,7 @@
 <p>$$x_{scaled} = \frac{x-\mu}{\sigma}$$, where \(\mu\) is the mean, and \(\sigma\) is the standard deviation.</p>
 <p>Subtracting the mean centers a feature. Dividing by the standard deviation scales it. Note that, expanded, the equation becomes</p>
 <p>$$x_{scaled} = \frac{x-\frac{\sum_i x_i}{n}}{\sqrt{\frac{\sum_i \left(x_i-\frac{\sum_i x_i}{n}\right)}{n-1}}}$$</p>
-<p>A simpler alternative to standardization is normalization, which is sometimes used.In Python, it uses the library <span class="code">preprocessing.MinMaxScaler
+<p>A simpler alternative to standardization is normalization, which is sometimes used. In Python, it uses the library <span class="code">sklearn.preprocessing.MinMaxScaler
 </span>.</p>
 <p>$$x_{scaled} = \frac{x-\mathrm{min}(x)}{\mathrm{max}(x)-\mathrm{min}(x)}$$</p>
 <p>Many machine learning algorithm libraries apply scaling by default, but some do not. Care must be taken in noting when manually scaling is necessary.</p>

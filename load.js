@@ -34,21 +34,39 @@ var load_topic = function(topic) {
 		}).catch(function() {});
 
 	fetch("r/" + topic + ".r")
-		.then(function(response) { return response.text(); })
+		.then(function(response) {
+			if (response.status >= 200 && response.status < 300) { 
+				return response.text(); 
+			} else {
+				throw 'non-existant';
+			}
+		})
 		.then(function(code) {
 			$('#main').append(add_lang(code, 'r', 'r'));
 			Prism.highlightElement($('#r')[0]);
 		}).catch(function() {});
 
 	fetch("python/" + topic + ".py")
-		.then(function(response) { return response.text(); })
+		.then(function(response) {
+			if (response.status >= 200 && response.status < 300) { 
+				return response.text(); 
+			} else {
+				throw 'non-existant';
+			}
+		})
 		.then(function(code) {
 			$('#main').append(add_lang(code, 'python', 'python'));
 			Prism.highlightElement($('#python')[0]);
 		}).catch(function() {});
 
 	fetch("tensorflow/" + topic + ".py")
-		.then(function(response) { return response.text(); })
+		.then(function(response) {
+			if (response.status >= 200 && response.status < 300) { 
+				return response.text(); 
+			} else {
+				throw 'non-existant';
+			}
+		})
 		.then(function(code) {
 			$('#main').append(add_lang(code, 'python', 'tensorflow'));
 			Prism.highlightElement($('#tensorflow')[0]);
@@ -71,8 +89,4 @@ var close_menu = function() {
 $(document).ready(function() {
 	build_nav();
 	load_topic('home');
-});
-
-$(document).click(function(event) {
-	title = $(event.target).text();
 });

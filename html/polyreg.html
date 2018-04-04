@@ -23,7 +23,7 @@ $$
 
 <p>This is reduced to the normal equation \(\theta^{*} = (\tilde{X}^T \tilde{X})^{-1} \tilde{X}^T y\), where the polynomial matrix \(\tilde{X}\), as pictured above, is known as the <span class="name">Vandermonde matrix</span>. Although the regressors are in a polynomial basis, the estimation problem is still a linear combination of all the terms; therefore, it is still a linear regression.</p>
 
-<p>The interpretation depicted above would be implemented by the <span class="code">poly()</span> function in R. The code featured below uses the <span class="code">polym()</span> function, which gives the more general interpretation matched by Python's <span class="code">PolynomialFeatures</span> class.</p>
+<p>The interpretation depicted above would be implemented by the <span class="code">poly()</span> function in R. The code featured below uses the <span class="code">polym()</span> function, which gives the more general interpretation matched by Python's <span class="code">sklearn.preprocessing.PolynomialFeatures</span> class.</p>
 
 For example, given two features \(x_1\) and \(x_2\),
 

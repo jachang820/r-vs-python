@@ -10,7 +10,7 @@ train = subset(df, split == TRUE)
 test = subset(df, split == FALSE)
 
 # Implements Breiman's random forest algorithm.
-install.packages('randomforest')
+install.packages('randomForest')
 library(randomforest)
 
 # Fit support vector regression to training set
