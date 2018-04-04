@@ -1,6 +1,6 @@
 #container {
-	margin-left: 75px;
-	width: 92vw;
+	margin-left: 60px;
+	width: 94vw;
 }
 
 #nav-expand {
@@ -64,7 +64,7 @@ nav ul li:hover {
 .lang {
 	margin: 5px;
 	border: 1px solid black;
-	width: 42vw;
+	width: 45vw;
 	float: left;
 	padding: 0px;
 }

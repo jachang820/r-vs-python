@@ -38,7 +38,7 @@ var load_topic = function(topic) {
 		}).catch(function() {});
 
 	})).then(function(texts) {
-		// intro
+	
 		$('h1').text(title);
 		$('#main').html(
 			`<article id="intro">` + texts[0] + `</article>`
