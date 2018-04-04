@@ -22,55 +22,43 @@ var build_nav = function() {
 var load_topic = function(topic) {
 
 	$('#main').html("");
+	urls = ["html/" + topic + ".html",
+					"r/" + topic + ".r",
+					"python/" + topic + ".py",
+					"tensorflow/" + topic + ".py"];
 
-	fetch("html/" + topic + ".html")
-		.then(function(response) { return response.text(); })
-		.then(function(html) {
-			$('h1').text(title);
-			$('#main').html(
-				`<article id="intro">` + html + `</article>`
-			);
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-		}).catch(function() {});
+	Promise.all(urls.map(function(url) {
 
-	fetch("r/" + topic + ".r")
-		.then(function(response) {
+		return fetch(url).then(function(response) { 
 			if (response.status >= 200 && response.status < 300) { 
-				return response.text(); 
+				return response.text();
 			} else {
-				throw 'non-existant';
+				return null;
 			}
-		})
-		.then(function(code) {
-			$('#main').append(add_lang(code, 'r', 'r'));
-			Prism.highlightElement($('#r')[0]);
 		}).catch(function() {});
 
-	fetch("python/" + topic + ".py")
-		.then(function(response) {
-			if (response.status >= 200 && response.status < 300) { 
-				return response.text(); 
-			} else {
-				throw 'non-existant';
-			}
-		})
-		.then(function(code) {
-			$('#main').append(add_lang(code, 'python', 'python'));
-			Prism.highlightElement($('#python')[0]);
-		}).catch(function() {});
+	})).then(function(texts) {
+		// intro
+		$('h1').text(title);
+		$('#main').html(
+			`<article id="intro">` + texts[0] + `</article>`
+		);
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 
-	fetch("tensorflow/" + topic + ".py")
-		.then(function(response) {
-			if (response.status >= 200 && response.status < 300) { 
-				return response.text(); 
-			} else {
-				throw 'non-existant';
-			}
-		})
-		.then(function(code) {
-			$('#main').append(add_lang(code, 'python', 'tensorflow'));
-			Prism.highlightElement($('#tensorflow')[0]);
-		}).catch(function() {});
+		var str = "";
+		if (texts[1] != null) {
+			str += add_lang(texts[1], 'r', 'r');
+		}
+		if (texts[2] != null) {
+			str += add_lang(texts[2], 'python', 'python');
+		}
+		if (texts[3] != null) {
+			str += add_lang(texts[3], 'python', 'tensorflow');
+		}
+		$('#main').append(str);
+		Prism.highlightAll()
+
+	}).catch(function() {});
 
 }
 
