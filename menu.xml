@@ -1,7 +1,7 @@
 <menu>
 	<item>
 		<name>home</name>
-		<text>Home</text>
+		<text>Machine Learning: R vs Python</text>
 	</item>
 	<item>
 		<name>import</name>
@@ -18,6 +18,10 @@
 	<item>
 		<name>splitting</name>
 		<text>Split and cross-validation</text>
+	</item>
+	<item>
+		<name>scatterplot</name>
+		<text>Scatter Plots</text>
 	</item>
 	<item>
 		<name>feature_scaling</name>
@@ -38,5 +42,17 @@
 	<item>
 		<name>svreg</name>
 		<text>Support Vector Regression</text>
+	</item>
+	<item>
+		<name>regularize</name>
+		<text>Regularization</text>
+	</item>
+	<item>
+		<name>cartreg</name>
+		<text>Decision Tree Regression</text>
+	</item>
+	<item>
+		<name>randomforest</name>
+		<text>Random Forest</text>
 	</item>
 </menu>

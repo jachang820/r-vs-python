@@ -1,3 +1,5 @@
+var title;
+
 var build_nav = function() {
 	fetch("menu.xml")
 		.then(function(response) {
@@ -24,6 +26,7 @@ var load_topic = function(topic) {
 	fetch("html/" + topic + ".html")
 		.then(function(response) { return response.text(); })
 		.then(function(html) {
+			$('h1').text(title);
 			$('#main').html(
 				`<article id="intro">` + html + `</article>`
 			);
@@ -68,4 +71,8 @@ var close_menu = function() {
 $(document).ready(function() {
 	build_nav();
 	load_topic('home');
+});
+
+$(document).click(function(event) {
+	title = $(event.target).text();
 });

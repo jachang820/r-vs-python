@@ -1,0 +1,28 @@
+<p>Regularization has a somewhat smoothing effect on linear regression that helps reduce overfitting by making the model more stiff. It solves the <span class="name">generalized linear regression</span> objective</p>
+
+$$\mathrm{min}_{\theta} \hspace{5mm} \frac{1}{2m} \sum_{i=1}^m ||\theta^T x^{(i)} - y^{(i)}||^2 + \frac{\lambda}{2m} \left[(1-\alpha) \frac{1}{2}||\theta||^2_2 + \alpha ||\theta||_1\right]$$
+
+<p>The left half is linear regression. The right half is called <span class="name">elastic net</span>, which consists of two terms, individually making up <span class="name">ridge regression</span> and <span class="name">least absolute shrinkage and selection operator (LASSO)</span>. Ridge regression is the L2 norm of all the parameters, and LASSO is the L1 norm. Elastic net parametrizes them using \(\alpha\), where an \(\alpha > 0.5\) favors LASSO, and an \(\alpha < 0.5\) favors ridge regression. Note that if \(\alpha = 1\), it is equivalent to LASSO, and if \(\alpha = 0\), it is equivalent to ridge regression. Therefore, elastic net is a superset of the others. \(\lambda\), the regularization hyperparameter, is the penalty weight that determines the relative importance of regularization. At \(\lambda = 0\), the objective is equivalent to plain vanilla linear regression. However, for efficiency, <span class="code">LinearRegression()</span> should be used.</p>
+
+<p>Python's <span class="code">sklearn</span> library also includes classes <span class="code">sklearn.linear_model.Ridge</span> and <span class="code">sklearn.linear_model.Lasso</span>. However, the code example below uses <span class="code">sklearn.linear_model.ElasticNet</span> because Ridge and Lasso could be emulated by tuning the hyperparameters. Note, however confusingly, that <span class="code">lambda</span> in R is <span class="code">alpha</span> in Python, and <span class="code">alpha</span> in R is <span class="code">l1_ratio</span> in Python.</p>
+
+<p>The generalized regression problem is solved in the same ways by normal equations or gradient descent. We can use the gradient descent update to illustrate what it does. The gradient with respect to \(\theta\) is</p>
+
+$$
+\begin{align}
+\nabla J(\theta) & = \frac{1}{m} \sum_{i=1}^m (\theta^T x^{(i)} - y^{(i)}) x^{(i)}_j + \frac{\lambda}{m} (1-\alpha) \theta_j \pm \frac{\lambda}{m} \alpha \\
+& = \frac{1}{m} \sum_{i=1}^m (\theta^T x^{(i)} - y^{(i)}) x^{(i)}_j + \frac{\lambda}{m} \theta_j \hspace{5mm} \mathrm{if} \hspace{5mm} \theta_j \geq 0
+\end{align}
+$$
+
+<p>We update \(\theta\) with a gradient descent. Note that to avoid confusion, we use \(\eta\) as our learning rate.</p>
+
+$$\theta_{j, t} = \theta_{j,t-1} (1 - \eta \frac{\lambda}{m}) - \eta \frac{1}{m} \sum_{i=1}^m (\theta^T x^{(i)} - y^{(i)}) x^{(i)}_j$$
+
+<p>Compare this to the non-regularized gradient descent.</p>
+
+$$\theta_{j, t} = \theta_{j,t-1} - \eta \frac{1}{m} \sum_{i=1}^m (\theta^T x^{(i)} - y^{(i)}) x^{(i)}_j$$
+
+<p>Assuming the learning rate \(\eta\) is a small number, and number of training examples \(m\) is a large number, the term \((1-\eta \frac{\lambda}{m})\) must only be slightly less than 1. Therefore, what regularization does is slightly decrease \(\theta\) at each update, making sure that the regression never exactly matches the points. It reduces the model's ability to map the data, and therefore reduces chance of overfitting.</p>
+
+<p>In practical usage, even a small \(\lambda = 0.1\) is enough.</p>

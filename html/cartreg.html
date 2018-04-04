@@ -1,0 +1,54 @@
+<p>Classification and regression tree (CART) is the umbrella term from learning using decision trees. The algorithm makes binary splits within features based on some heuristic, originally the <span class="name">ID3</span> algorithm that calculates <span class="name">information gain</span> by comparing entropies. However, CART in modern libraries use a number of other functions to decide the best splits. After CART makes all the splits, a prediction of a categorical point is given the category of the partition, or <span class="name">leaf</span> it falls under, and a prediction of a real value takes the mean of all the points within the leaf.</p>
+
+<p>There are several reasons to use decision trees for regression:
+	<ul>
+		<li>They select the most relevant features automatically. The algorithm searches through all the points to make the best split according to the hueristic.</li>
+		<li>They are insensitive to missing values, scaling, or outliers, since they deal in proportions and not absolute values. Therefore, they reduce preparation time.</li>
+		<li>Linearity is not assumed. Splits are possible regardless of the shape of the dataset. This becomes valuable under high dimensionality.</li>
+		<li>They are easy to interpret. Splits on features can be easily visualized.</li>
+	</ul>
+</p>
+
+<p>However, trees have several major problems as well:
+	<ul>
+		<li>They are unstable. Small changes or additions to the predictor variables can cause large changes in tree structure.</li>
+		<li>Preparing decision trees is a costly procedure that involves going through each feature of each example, calculating their value according to the heuristic, and comparing them, on each iteration.</li>
+		<li>They are prone to overfitting. There is no easy way to determine the optimal number of splits while building the tree. It may be done with cross-validation, which adds to the time complexity cost.</li>
+	</ul>
+</p>
+
+<p>The CART algorithm performs an exhaustive search between each data point in node \(m = \mathcal{D} | (\theta^{*}_1, \dots, \theta^{*}_{k-1})\) (the subset of data given previous splits) on each feature for candidate splits \(\theta(j, t_m)\), where \(j\) is the feature and \(t_m\) is the threshold. For each candidate split, it partition the data into \(P_{left} (\theta)\) and \(P_{right} (\theta)\) subsets.</p>
+
+$$
+\begin{align}
+P_{left} (\theta) & = (x^{(i)}, y^{(i)}) | x^{(i)}_j \leq t_m, \hspace{5mm} i=1,\dots\,n \\
+P_{right} (\theta) & = P_{all} \ P_{left} (\theta)
+\end{align}
+$$
+
+<p>We want to find the split \(\theta^{*}\) that minimizes the impurity, based on the impurity function \(H()\), which is the heuristic used. Let \(n_{left}\) and \(n_{right}\) be the number of points in node \(m\) in the left and right partitions, respectively. Let \(N_m\) be the total number of points in node \(m\). We define</p>
+
+$$G(P, \theta) = \frac{n_{left}}{N_m} H(P_{left} (\theta)) + \frac{n_{right}}{N_m} H(P_{right} (\theta))$$
+
+<p>Therefore, our objective is</p>
+
+$$\theta^{*} = \mathrm{min}_{\theta} G(P, \theta)$$
+
+<p>These steps are recursed for subsets \(P_{left}(\theta^{*})\) and \(P_{left}(\theta^{*})\) until an end condition is reached, whether
+<ul>
+	<li>\(N_m = 1\). There is one point left in each node.</li>
+	<li>\(N_m < \textrm{min}_{samples}\). Maximum allowable depth is reached.</li>
+	<li>\(G(\theta_{k-1}) - G(\theta_k) < t\). Reduction in impurity is less than some predefined threshold.</li>
+</ul>
+</p>
+
+<p>In Python, the default impurity function used for decision tree regression is <span class="name">mean square error (MSE)</span>. Let \(c_m\) be the mean response for a node \(m\).</p>
+
+$$
+\begin{align}
+c_m & = \frac{1}{N_m} \sum_{i \in N_m} y_i \\
+H(P_m) & = \frac{1}{N_m} \sum_{i \in N_m} (y_i - c_m)^2
+\end{align}
+$$
+
+<p> In R, the default impurity function is <span class="name">analysis of variance (ANOVA)</span>, a complex process that works with the sum of squares, mean squares, and variance ratio F-test.</p>

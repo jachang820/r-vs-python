@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 # Import dataset
@@ -9,9 +10,9 @@ y = df.iloc[:, -1].values
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# Fit linear regression to training set
-from sklearn.linear_model import LinearRegression
-model = LinearRegression()
+# Fit support vector regression to training set
+from sklearn.tree import DecisionTreeRegressor
+model = DecisionTreeRegressor()
 model.fit(X_train, y_train)
 
 # Predict test set

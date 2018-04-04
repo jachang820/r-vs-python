@@ -9,13 +9,12 @@ split = sample.split(df$y, SplitRatio=0.8)
 train = subset(df, split == TRUE)
 test = subset(df, split == FALSE)
 
-# Fit linear regression to training set
-model = lm(y ~ ., data=train)
+# Implements Breiman's random forest algorithm.
+install.packages('randomforest')
+library(randomforest)
 
-# The . indicates a linear combination of all independent 
-# variables. The above line is would be the same as
-#         reg = lm(y ~ x1 + x2 + x3, data=train)
-# if there are 3 features in the dataset.
+# Fit support vector regression to training set
+model = randomForest(y ~ ., data=train, ntree=100)
 
 # Predict test set
 y_pred = predict(model, newdata=test)
