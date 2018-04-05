@@ -30,6 +30,22 @@ h1, h2, .title {
 	font-family: 'RobotoItalic', sans-serif;
 }
 
+table, th, td {
+	border-collapse: collapse;
+	border: 1px solid black;
+	text-align: center;
+	word-wrap: break-word;
+	margin: 0 auto;
+}
+
+th {
+	font-family: 'RobotoBold', sans-serif;
+}
+
+td {
+	font-family: 'RobotoLight', sans-serif;
+}
+
 @media only screen and (min-width: 576px) {
 
 	#container {

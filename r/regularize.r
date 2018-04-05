@@ -19,7 +19,7 @@ library(glmnet)
 
 # Fit regularized linear regression to training set
 y_col = ncol(train)
-model = glmnet(x=train[-y_col], y=train[y_col], alpha=0.5)
+model = glmnet(x=train[,-y_col], y=train[,y_col], alpha=0.5)
 
 # Predict test set
 y_pred = predict(model, newdata=test)

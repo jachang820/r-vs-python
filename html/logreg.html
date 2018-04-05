@@ -1,0 +1,67 @@
+<h2>The Sigmoid Function</h2>
+
+<p>Logistic regression begins with a linear model, but uses a hypothesis function to frame the problem in terms of probabilities. Its motivation probably began with the zero-mean, standard variance Gaussian \(\mathcal{N}(0, 1)\), also characterized by the <span class="name">z-score</span> function \(\Phi(x)\). Given a linear model \(\theta^T x\), we could transform it into the probability space with</p>
+
+$$
+\begin{align}
+y & = \Phi(\theta^T x) \\
+\Phi^{-1}(y) & = \theta^T x \\
+F(y) & = \theta^T x
+\end{align}
+$$
+
+<p>\(F(y)\) is known as the <span class="name">Probit function</span>, which stands for probability unit. However, the z-score is difficult to compute. As an alternative approach, we consider <span class="name">odds</span> \(O(p) = \frac{p}{1-p}\), which represents odds in favor or against. For example, if \(Pr(X) = \frac{1}{4}\), we could say that the odds of \(X\) occurring is 1-to-3; therefore, \(O(p) = \frac{1}{3}\). We want it to do something similar to \(\Phi(x)\), so we take the natural log.
+
+$$
+\begin{align}
+\mathrm{ln}(O(p)) & = \mathrm{ln}(\frac{p}{1-p}) \\
+& = \mathrm{ln}(p) - \mathrm{ln}(1-p) \\
+& = \mathcal{l}(p)
+\end{align}
+$$
+
+<p>\(\mathcal{l}(p)\) is known as the <span class="name">Logit function</span>. 	But we want to find the probability of the response variable \(y\), so</p>
+
+$$
+\begin{align}
+\mathcal{l}(y) & = \theta^T x \\
+\mathrm{ln}(\frac{y}{1-y}) & = \theta^T x \\
+\frac{y}{1-y} & = e^{\theta^T x} \\
+y & = (1-y) e^{\theta^T x} \\
+y & = e^{\theta^T x} - y e^{\theta^T x} \\
+y (1 + e^{\theta^T x}) & = e^{\theta^T x} \\
+y & = \frac{e^{\theta^T x}}{1 + e^{\theta^T x}} \\
+y & = \frac{1}{1 + e^{-\theta^T x}} \\
+g(x; \theta) & = \frac{1}{1 + e^{-\theta^T x}}
+\end{align}
+$$
+
+<p>\(g(x; \theta)\) is known as the <span class="name">sigmoid function</span>. It takes on values between -1 and 1. It is our hypothesis.</p>
+
+<h2>Maximum Likelihood</h2>
+
+<p>Usually, the model is estimated using maximum likelihood estimation. We begin with <span class="name">Bayes Theorem</span>.</p>
+
+$$Pr(X|Y) = \frac{Pr(Y | X; \theta) Pr(X; \theta)}{Pr(Y)}$$
+
+<p>\(Pr(X; \theta)\) is called <span class="name">a priori</span>, Latin for what we know beforehand. \(Pr(Y | X; \theta)\) is called the <span class="name">likelihood</span>. Since logistic regression is a linear regression model, all of the assumptions made for linear regression still holds. So we assume independence of the examples. Then,</p>
+
+$$
+\begin{align}
+L(\theta|x) & = Pr(Y|X; \theta) \\
+& = \prod_{i=1}^n Pr(y^{(i)} | x^{(i)}; \theta) \\
+& = \prod_{i=1}^n g(x; \theta)^{y^{(i)}} (1-g(x; \theta))^{(1-y^{(i)})}
+\end{align}
+$$
+
+<p>The last line assumes that the response \(y = \pm 1\); therefore, one of the terms must become identity. Since this product isn't convex, and is difficult to calculate, and taking the log doesn't change the problem, we take the log and flip the sign to obtain a convex function, the <span class="name">negative log likelihood</span>.</p>
+
+$$LL(\theta|x) = -\sum_{i=1}^n \left[ y^{(i)} \mathrm{log}(g(x; \theta)) + (1-y^{(i)}) \mathrm{log}(1-g(x; \theta))\right]$$
+
+<p>And thus we obtain our cost function. Our objective is to</p>
+
+$$\mathrm{min} \hspace{2mm} LL(\theta|x)$$
+
+<p>This is no longer solvable by normal equations, so it is typically solved by gradient descent, or some alternative iterative algorithm, such as Newton's method, or the regularized Levenberg-Marquardt.</p>
+
+<p>Note that logistic regression libraries for both R and Python must be manually scaled. The prediction is in probabilities, and usually binarized to obtain classification.</p>

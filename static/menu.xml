@@ -32,6 +32,14 @@
 		<text>Stepwise Regression</text>
 	</item>
 	<item>
+		<name>binarize</name>
+		<text>Binarization</text>
+	</item>
+	<item>
+		<name>confusion</name>
+		<text>Confusion Matrix</text>
+	</item>
+	<item>
 		<name>linreg</name>
 		<text>Linear Regression</text>
 	</item>
@@ -54,5 +62,9 @@
 	<item>
 		<name>randomforest</name>
 		<text>Random Forest</text>
+	</item>
+	<item>
+		<name>logreg</name>
+		<text>Logistic Regression</text>
 	</item>
 </menu>

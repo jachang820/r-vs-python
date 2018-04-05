@@ -1,0 +1,43 @@
+<p>The confusion matrix is a useful tool to describe the performance of classifiction models. It splits the results into 4 categories: true positives, true negatives, false positives (<span class="name">Type I error</span>), and false negatives (<span class="name">Type II error</span>). While learning aims to maximize true positives and negatives, the relative importance of false positives against false negatives depend on the application. For example, a false positive might be far preferable to a false negative in detecting cancer. On the other hand, a false positvie might be more costly when it comes to figuring who to market a product to.</p>
+
+<p>It is also useful in deriving a number of statistical tests. The following is not an exhaustive list.</p>
+
+$$
+\begin{align}
+\mathrm{Precision} & = \frac{TP}{TP + FP} \\
+\mathrm{Recall} & = \frac{TP}{TP + FN} \\
+\mathrm{Specificity} & = \frac{TN}{TN + FP} \\
+\mathrm{Accuracy} & = \frac{TP + TN}{TP + TN + FP + FN} \\
+\mathrm{F1 Score} & = \frac{2}{\frac{1}{\mathrm{Recall}} + \frac{1}{\mathrm{Precision}}}
+\end{align}
+$$
+
+<ul>
+	<li><span class="name">Precision</span> is the ratio of data that are actually positive out of all the data predicted to be positive.</li>
+	<li><span class="name">Recall</span> is the ratio of data that are predicted to be positive out of all the data that are actually positive.</li>
+	<li><span class="name">Specificity</span> is the ratio of data that are predicted to be negative out of all the data that are actually negative.</li>
+	<li><span class="name">Accuracy</span> is the ratio of data that are accurately predicted out of all of the data. This is useful in testing general predictive power of a model.</li>
+	<li><span class="name">F1 Score</span> is the harmonic mean of precision and recall. Harmonic means tend to favor the smaller number. This is often used in natural language processing (NLP), such as measuring information retrieval of search engines.</li>
+</ul>
+
+<table>
+	<tr>
+		<th rowspan="2" colspan="2" width="10vw"><span class="name">Confusion Matrix</span></th>
+		<th colspan="2">Actual Condition</th>
+	</tr>
+	<tr>
+		<th width="5vw">Actually True</th>
+		<th width="5vw">Actually False</th>
+	</tr>
+	<tr>
+		<th rowspan="2" width="5vw">Predicted Condition</th>
+		<th width="5vw">Predict Positive</th>
+		<td>TP</td>
+		<td>FP</td>
+	</tr>
+	<tr>
+		<th width="5vw">Predict Negative</th>
+		<td>FN</td>
+		<td>TN</td>
+	</tr>
+</table>
