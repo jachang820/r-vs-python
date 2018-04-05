@@ -1,61 +1,63 @@
-@media only screen and (min-width: 576px) {
+@media only screen and (max-width: 576px) {
+
+	body {
+		overflow-x: hidden;
+	}
 
 	#container {
-		margin-left: 60px;
-		width: 80vw;
+		margin: 5px;
+		margin-top: 10vh;
+		width: 95vw;
 	}
 
 	#nav-expand {
-		position: fixed;
-		height: 100vh;
-		width: 300px;
-		background-color: white;
+		position: absolute;
+		height: 7vh;
+		width: 100vw;
+		background-color: #fee;
 		border-right: 1px solid black;
-		box-shadow: 10px 0px 5px grey;
+		box-shadow: 0px 10px 5px grey;
 		top: 0px;
-		left: -250px;
+		left: 0px;
 		z-index: 100;
-		transition: left 2s, box-shadow 2s;
+		transition: height 2s, box-shadow 2s;
 	}
 
 	#nav-leaf {
-		position: absolute;
-		height: 100vh;
-		width: 50px;
+		position: relative;
+		left: calc(50% - 2.5vh);
+		top: 1vh;
+		height: 5vh;
+		width: 5vh;
 		background-color: #fee;
-		box-shadow: -5px 0px 5px #fee;
-		top: 0px;
-		left: 250px;
 	}
 
 	#nav-arrow {
-		height: 30px;
-		width: 30px;
-		position: absolute;
-		top: calc(50% - 30px);
-		left: 10px;
+		height: 5vh;
+		width: 5vh;
 		transition: transform 2s;
-		transform: rotate(0deg);
+		transform: rotate(90deg);
 	}
 
 	#nav-expand-open {
 		position: fixed;
-		height: 100vh;
-		width: 300px;
-		background-color: white;
+		height: 80vh;
+		width: 100vw;
+		background-color: #fee;
 		border-right: 1px solid black;
 		top: 0px;
 		left: 0px;
 		z-index: 100;
-		transition: left 2s, box-shadow 2s;
+		transition: height 2s, box-shadow 2s;
 	}
 
 	nav {
 		position: absolute;
-		height: 100vh;
-		width: 225px;
-		top: 0px;
+		height: 80vh;
+		width: 100vh;
+		top: 5vh;
 		left: 0px;
+		display: none;
 		word-wrap: break-word;
 	}
 
@@ -74,14 +76,16 @@
 	.lang {
 		margin: 5px;
 		border: 1px solid black;
-		width: 80vw;
+		width: 90vw;
 		float: left;
 		padding: 0px;
 	}
 
 	#intro {
-		width: 80vw;
+		width: 90vw;
 		margin: 10px;
+		overflow: hidden;
+		overflow-x: auto;
 	}
 
 	code {
@@ -111,28 +115,4 @@
 		font-size: 80%;
 	}
 
-}
-
-@media only screen and (min-width: 800px) {
-	#container {
-		width: 85vw;
-	}
-
-	#intro {
-		width: 85vw;
-	}
-
-	.lang {
-		width: 41vw;
-	}
-}
-
-@media only screen and (min-width: 1000px) {
-	#container {
-		width: 90vw;
-	}
-
-	.lang {
-		width: 43vw;
-	}
 }

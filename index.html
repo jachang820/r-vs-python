@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>R vs Python</title>
 	<script
 	  src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -11,16 +12,17 @@
   	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 	<link rel="stylesheet" type="text/css" href="prism.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="style-mobile.css">
 </head>
 <body>
-	<div id="nav-expand" onmouseover="expand_menu()" onmouseout="close_menu()">
+	<div id="nav-expand">
 		<nav></nav>
 		<div id="nav-leaf">
-			<img src="static/arrow.svg" id="nav-arrow">
+			<img src="static/arrow.svg" id="nav-arrow" 
+				onclick="expand_menu()">
 		</div>
 	</div>
 	<div id="container">
-		<h1></h1>
 		<section id="main">
 			<article id="intro"></article>
 			<div class="lang">
