@@ -1,0 +1,164 @@
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'RobotoLight';
+	src: url('../fonts/Roboto-Light.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'RobotoBold';
+	src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'RobotoItalic';
+	src: url('../fonts/Roboto-MediumItalic.ttf') format('truetype');
+}
+
+h1, h2, .title {
+	font-family: 'RobotoBold', sans-serif;
+}
+
+#intro {
+	font-family: 'RobotoLight', sans-serif;
+}
+
+.name {
+	font-family: 'RobotoItalic', sans-serif;
+}
+
+@media only screen and (min-width: 576px) {
+
+	#container {
+		margin-left: 60px;
+		width: 80vw;
+	}
+
+	#nav-expand {
+		position: fixed;
+		height: 100vh;
+		width: 300px;
+		background-color: white;
+		border-right: 1px solid black;
+		box-shadow: 10px 0px 5px grey;
+		top: 0px;
+		left: -250px;
+		z-index: 100;
+		transition: left 2s, box-shadow 2s;
+	}
+
+	#nav-leaf {
+		position: absolute;
+		height: 100vh;
+		width: 50px;
+		background-color: #fee;
+		box-shadow: -5px 0px 5px #fee;
+		top: 0px;
+		left: 250px;
+	}
+
+	#nav-arrow {
+		height: 30px;
+		width: 30px;
+		position: absolute;
+		top: calc(50% - 30px);
+		left: 10px;
+		transition: transform 2s;
+		transform: rotate(0deg);
+	}
+
+	#nav-expand-open {
+		position: fixed;
+		height: 100vh;
+		width: 300px;
+		background-color: white;
+		border-right: 1px solid black;
+		top: 0px;
+		left: 0px;
+		z-index: 100;
+		transition: left 2s, box-shadow 2s;
+	}
+
+	nav {
+		position: absolute;
+		height: 100vh;
+		width: 225px;
+		top: 0px;
+		left: 0px;
+		word-wrap: break-word;
+	}
+
+	nav ul li:hover {
+		background-color: #eee;
+	}
+
+	.title {
+		text-transform: uppercase;
+		color: #ffd;
+		background-color: #369;
+	}
+
+	.lang {
+		margin: 5px;
+		border: 1px solid black;
+		width: 80vw;
+		float: left;
+		padding: 0px;
+	}
+
+	#intro {
+		width: 80vw;
+		margin: 10px;
+	}
+
+	code {
+		font-size: 80%;
+	}
+
+	.line-numbers-rows {
+		top: -1px;
+		font-size: 100%;
+		line-height: 1.505;
+	}
+
+	code[class*="language-"],
+	pre[class*="language-"] {
+		-moz-tab-size: 2;
+		-o-tab-size: 2;
+		tab-size: 2;
+		padding-bottom: 5px;
+	}
+
+	.code {
+		font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+		font-size: 90%;
+	}
+
+}
+
+@media only screen and (min-width: 800px) {
+	#container {
+		width: 85vw;
+	}
+
+	#intro {
+		width: 85vw;
+	}
+
+	.lang {
+		width: 41vw;
+	}
+}
+
+@media only screen and (min-width: 1000px) {
+	#container {
+		width: 90vw;
+	}
+
+	.lang {
+		width: 43vw;
+	}
+}
