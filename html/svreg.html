@@ -141,7 +141,7 @@ $$
 
 <h2>Feature scaling</h2>
 
-The assumptions behind SVR necessitates that we scale the predictors such that \(||w||=1\). However, since the response is dependent only on the support and points beyond the margin, scaling the predictors change the points that fall within the penalty. In Python, the \(\epsilon\) margin <span class="code">epsilon</span> defaults to 0.1. Therefore, in order for the problem to remain the same, we must also scale the response. The response must then be inversely scaled during prediction so we obtain a more meaningful result. R scales by default.</p>
+The assumptions behind SVR necessitate that we scale the predictors such that \(||w||=1\). However, since the response is dependent only on the support and points beyond the margin, scaling the predictors change the points that fall within the penalty. In Python, the \(\varepsilon\) margin <span class="code">epsilon</span> defaults to 0.1. Therefore, in order for the problem to remain the same, we must also scale the response. The response must then be inversely scaled during prediction so we obtain a more meaningful result. R scales by default.</p>
 
 
 <p>Another solution would be to adjust the margin \(\epsilon\) appropriately. One method to do this is <span class="name">grid search</span>. Grid search constructs a grid of possible hyperparameter values and finds the best cross-validation score.</p>

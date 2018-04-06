@@ -5,23 +5,27 @@
 	</item>
 	<item>
 		<name>import</name>
-		<text>Import dataframe</text>
+		<text>Import Dataframe</text>
 	</item>
 	<item>
 		<name>impute</name>
-		<text>Impute missing values</text>
+		<text>Impute Missing Values</text>
 	</item>
 	<item>
 		<name>categorical</name>
-		<text>Convert categorical feature to factors</text>
+		<text>Convert Categorical Feature to Factors</text>
 	</item>
 	<item>
 		<name>splitting</name>
-		<text>Split and cross-validation</text>
+		<text>K-Folds Cross-Validation on Feature Matrix</text>
+	</item>
+	<item>
+		<name>findbestparam</name>
+		<text>K-Folds Cross-Validation to Find Best Hyperparameter</text>
 	</item>
 	<item>
 		<name>scatterplot</name>
-		<text>Scatter Plots</text>
+		<text>Scatter plots</text>
 	</item>
 	<item>
 		<name>feature_scaling</name>
@@ -66,5 +70,9 @@
 	<item>
 		<name>logreg</name>
 		<text>Logistic Regression</text>
+	</item>
+	<item>
+		<name>knn</name>
+		<text>k-Nearest Neighbors</text>
 	</item>
 </menu>

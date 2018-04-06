@@ -1,0 +1,53 @@
+<p>k-nearest neighbors is a non-parametric model. It is one of the simplest models, but powerful under conditions of low dimensionality, and where the categories are somewhat balanced and mostly separable. Unlike other models, k-NN does most of the calculations during prediction instead of training. In fact, k-NN only preprocesses the indices on the training set in some variations. During prediction, it takes a majority vote on the values of a point's \(k\) nearest neighbors, and the point takes on the winner of the vote.</p>
+
+$$\sum_{i=1}^n ||x - x^{(i)}||_p = \sum{i=1}^n \left(|x - x^{(i)}|^p\right)^{\frac{1}{p}}$$
+
+<p>Since there is no easy way to find the \(k\) nearest points, we must potentially iterate through all of the points in the entire training set. Usually, the Euclidean distance, the L2-norm, is used, but sometimes the L1-norm is also used. \(p\)-norms are a function of each dimension, so the overall prediction complexity is O(\(nm\)), for \(n\) features and \(m\) examples. This is one of k-NN's major difficulties: it is rather slow.</p>
+
+<p>Other disadvantages are:
+	<ul>
+		<li>Since it relies on the distance between points, we must take care not to let any one feature dominate. Therefore, normalization scaling is a necessity.</li>
+		<li>It must store the entire training set in memory.</li>
+		<li>Datasets in which one category has many more points than another will dominate and cause the model to bias.</li>
+		<li>It is particularly susceptible to the <span class="name">curse of dimensionality</span>, wherein higher number of features increase the distance between points. Care must be taken to reduce irrelevant features. In high dimensionality, even if most features are relevant, the distance still causes most points to appear as if there are similar distances between them.</li>
+	</ul>
+</p>
+
+<p>A good way to intuit this is to imagine a hypercube with sides \(l_1 = 0.5\) within another hypercube with sides \(l_2 = 1\). Their ratio of their \(n\)-dimension volumes decrease as the number of dimensions increase.</p>
+
+<table>
+	<tr>
+		<th>Dimension</th>
+		<th>Volume, \(v_1\)</th>
+		<th>Volume, \(v_2\)</th>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>\(0.5^2 = 0.250000\)</td>
+		<td>\(1\)</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>\(0.5^3 = 0.125000\)</td>
+		<td>\(1\)</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>\(0.5^4 = 0.062500\)</td>
+		<td>\(1\)</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>\(0.5^5 = 0.031250\)</td>
+		<td>\(1\)</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>\(0.5^6 = 0.015625\)</td>
+		<td>\(1\)</td>
+	</tr>
+</table>
+
+<p>The same occurs regardless of shape, indicating that distances tend to appear further with increasing dimensionality. Some of these problems could be reduced by feature reduction using <span class="name">principle component analysis (PCA)</span> or <span class="name">linear discriminant analysis (LDA)</span>.</p>
+
+<p>Typically, k-folds cross-validation is used to find the best \(k\) that maximizes accuracy or error rate. A confusion matrix can be used to validate accuracy as well.</p>

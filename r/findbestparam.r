@@ -22,12 +22,18 @@ install.packages('caret')
 library(caret)
 
 # Apply 10 folds cross-validation
+# Test every odd k from 1 to 51
 folds = 10
-cvIndex = createFolds(train$y, folds, returnTrain = TRUE)
-tc = trainControl(index=cvIndex, method='cv', number=folds)
+tc = trainControl(method='cv', number=folds)
+fit = train(y ~ ., data=train,
+						method="knn",
+						metric="Accuracy",
+						control=tc,
+						preProcess=c("center", "scale"),
+						tuneGrid=expand.grid(k=seq.int(1, 51, 2))
 
-# Fit an example model to training set
-model = lm(y ~ ., data=train, trControl=tc)
+# Report scores
+fit
 
-# Report score
-summary(model)
+# Plot scores
+plot(fit)

@@ -11,9 +11,10 @@ from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # Apply 10 folds cross-validation
-from sklearn.model_selection import KFold
-kf = KFold(n_splits=10, random_state=None, shuffle=False)
-for train_index, validation_index in kf.split(X):
-	X_train, X_val = X[train_index], X[validation_index]
-	y_train, y_val = y[train_index], y[validaiton_index]
-	# Train model here
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+model = LinearRegression()
+scores = cross_val_score(model, X_train, y_train, cv=10)
+
+# Report score
+print("Accuracy %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
