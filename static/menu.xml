@@ -65,7 +65,7 @@
 	</item>
 	<item>
 		<name>randomforest</name>
-		<text>Random Forest</text>
+		<text>Random Forest Regression</text>
 	</item>
 	<item>
 		<name>logreg</name>
@@ -74,5 +74,21 @@
 	<item>
 		<name>knn</name>
 		<text>k-Nearest Neighbors</text>
+	</item>
+	<item>
+		<name>svc</name>
+		<text>Support Vector Classification</text>
+	</item>
+	<item>
+		<name>naivebayes</name>
+		<text>Naive Bayes</text>
+	</item>
+	<item>
+		<name>cartclass</name>
+		<text>Decision Tree Classification</text>
+	</item>
+	<item>
+		<name>rforestclass</name>
+		<text>Random Forest Classification</text>
 	</item>
 </menu>

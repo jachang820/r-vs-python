@@ -1,3 +1,15 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Good performance for low dimensions.</td>
+		<td class="cons">Must store entire training set in memory, susceptible to bias in high dimensions or with irrelevant features, requires balanced categories.</td>
+	</tr>
+</table>
+
+
 <p>k-nearest neighbors is a non-parametric model. It is one of the simplest models, but powerful under conditions of low dimensionality, and where the categories are somewhat balanced and mostly separable. Unlike other models, k-NN does most of the calculations during prediction instead of training. In fact, k-NN only preprocesses the indices on the training set in some variations. During prediction, it takes a majority vote on the values of a point's \(k\) nearest neighbors, and the point takes on the winner of the vote.</p>
 
 $$\sum_{i=1}^n ||x - x^{(i)}||_p = \sum{i=1}^n \left(|x - x^{(i)}|^p\right)^{\frac{1}{p}}$$
@@ -9,7 +21,7 @@ $$\sum_{i=1}^n ||x - x^{(i)}||_p = \sum{i=1}^n \left(|x - x^{(i)}|^p\right)^{\fr
 		<li>Since it relies on the distance between points, we must take care not to let any one feature dominate. Therefore, normalization scaling is a necessity.</li>
 		<li>It must store the entire training set in memory.</li>
 		<li>Datasets in which one category has many more points than another will dominate and cause the model to bias.</li>
-		<li>It is particularly susceptible to the <span class="name">curse of dimensionality</span>, wherein higher number of features increase the distance between points. Care must be taken to reduce irrelevant features. In high dimensionality, even if most features are relevant, the distance still causes most points to appear as if there are similar distances between them.</li>
+		<li>It is <span class="important">particularly susceptible to the <span class="name">curse of dimensionality</span></span>, wherein higher number of features increase the distance between points. Care must be taken to reduce irrelevant features. In high dimensionality, even if most features are relevant, the distance still causes most points to appear as if there are similar distances between them.</li>
 	</ul>
 </p>
 

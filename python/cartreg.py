@@ -10,7 +10,7 @@ y = df.iloc[:, -1].values
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# Fit support vector regression to training set
+# Fit CART regression to training set
 from sklearn.tree import DecisionTreeRegressor
 model = DecisionTreeRegressor()
 model.fit(X_train, y_train)

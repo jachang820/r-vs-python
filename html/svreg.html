@@ -1,8 +1,19 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Nonlinear, not biased by outliers, guaranteed optimality for linearly separable data.</td>
+		<td class="cons">Hard to explain, hard to pick optimal kernel.</td>
+	</tr>
+</table>
+
 <h2>Optimal margins</h2>
 
-<p>Support vector regression (SVR) takes the popular classification algorithm <span class="name">Support vector machine (SVM)</span> and makes some small changes to support regression. The idea is that we want to find a regression \(\hat{y} = w^T x + b\) that maximizes support vectors \(\hat{y} \pm \varepsilon \), which are parallel to \(\hat{y}\) and intersects the furthest points. Intuitively, the best estimate should have the maximum possible \(\varepsilon\). The points that intersect the support vectors are called <span class="name">supports</span>.</p>
+<p>Support vector regression (SVR) takes the popular classification algorithm <span class="name">Support vector machine (SVM)</span> and makes some small changes to support regression. The idea is that we want to find a regression \(\hat{y} = w^T x + b\) that maximizes margins, such that the positive and negative hyperplanes are \(\hat{y} \pm \varepsilon \), which are parallel to \(\hat{y}\) and intersects the furthest points. Intuitively, the best estimate should have the maximum possible \(\varepsilon\). The points that intersect the positive and negative hyperplanes are called <span class="name">support vectors</span>.</p>
 
-<p>Note that in typical linear regression, we use the least squares regression, such that distance from the regression is measured within each dimension. However, since support vectors are parallel to the regression, we must use the geometric distance, which is the length of the vector orthogonal to \(\hat{y}\). This happens to be the parameter \(w\), and the unit vector is \(\frac{w}{||w||}\), such that \(\left(\frac{w}{||w||}\right)^T x^{(i)}\) is the distance from the regression to \(x^{(i)}\) orthogonal to the line. Therefore, the geometric estimate is</p>
+<p>Note that in typical linear regression, we use the least squares regression, such that distance from the regression is measured within each dimension. However, since support vectors are parallel to the regression, we must use the geometric distance, which is the length of the vector orthogonal to \(\hat{y}\). This happens to be the parameter \(w\), and the unit vector is \(\frac{w}{||w||}\), such that \(\left(\frac{w}{||w||}\right)^T x^{(i)}\) is the orthogonal distance from the classifier boundary to \(x^{(i)}\). Therefore, the geometric estimate is</p>
 
 $$y^{(i)} - \left(\left(\frac{w}{||w||}\right)^T x^{(i)} + \frac{b}{||w||}\right) = r^{(i)}$$
 
@@ -99,7 +110,7 @@ y & = \sum_{i=1}^m (\alpha_i - \hat{\alpha}_i) \varphi\left(x^{(i)}\right)^T \va
 \end{align}
 $$
 
-<p>What the dual function elucidates (the derivation isn't shown) is that all \(\alpha = 0\) besides the supports. Since supports are a small subset of the overall data, this greatly reduces calculation complexity. It also suggests that we don't need to calculate \(K\left(x^{(i)}, x\right)\). This is called the <span class="name">kernel trick</span>. There are numerous functions that satisfy the kernel, with the primary condition that the kernel (Gramm) matrix must be positive semi-definite.</p>
+<p>What the dual function elucidates (the derivation isn't shown) is that all \(\alpha = 0\) besides the supports. Since support vectors are a small subset of the overall data, this greatly reduces calculation complexity. It also suggests that we don't need to calculate \(K\left(x^{(i)}, x\right)\). This is called the <span class="name">kernel trick</span>. There are numerous functions that satisfy the kernel, with the primary condition that the kernel (Gramm) matrix must be positive semi-definite.</p>
 
 <p>Examples of kernels \(K(x_i, x_j)\) are:</p>
 <ul>
@@ -141,7 +152,7 @@ $$
 
 <h2>Feature scaling</h2>
 
-The assumptions behind SVR necessitate that we scale the predictors such that \(||w||=1\). However, since the response is dependent only on the support and points beyond the margin, scaling the predictors change the points that fall within the penalty. In Python, the \(\varepsilon\) margin <span class="code">epsilon</span> defaults to 0.1. Therefore, in order for the problem to remain the same, we must also scale the response. The response must then be inversely scaled during prediction so we obtain a more meaningful result. R scales by default.</p>
+The assumptions behind SVR necessitate that we scale the predictors such that \(||w||=1\). However, since the response is dependent only on the support vectors and points beyond the margin, scaling the predictors change the points that fall within the penalty. In Python, the \(\varepsilon\) margin <span class="code">epsilon</span> defaults to 0.1. Therefore, in order for the problem to remain the same, we must also scale the response. The response must then be inversely scaled during prediction so we obtain a more meaningful result. R scales by default.</p>
 
 
 <p>Another solution would be to adjust the margin \(\epsilon\) appropriately. One method to do this is <span class="name">grid search</span>. Grid search constructs a grid of possible hyperparameter values and finds the best cross-validation score.</p>

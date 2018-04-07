@@ -1,0 +1,55 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Efficient, nonlinear, generative, not biased by outliers.</td>
+		<td class="cons">Assumes all features have same statistical relevance.</td>
+	</tr>
+</table>
+
+<p>Naive Bayes is based on the Bayes Theorem, a cornerstone in the field of probability.</p>
+
+$$ Pr(Y|X) = \frac{Pr(X|Y) Pr(Y)}{Pr(X)}$$
+
+<p>\(Pr(Y|X)\) is called the <span class="name">a posteriori</span> term, Latin for after the fact. It is the probability of the response given that we know the predictors. \(Pr(Y)\) is called the <span class="name">a priori</span> term, Latin for before the fact. It is the probability of the response before we know anything about the predictors. The relation that connects these two is the term \(Pr(X|Y)\), called the <span class="name">likelihood</span>. On the bottom, \(Pr(X)\) is called the <span class="name">marginal likelihood</span>. It is marginal because it frames the problem within the probability of the predictors, instead of the overall probability space. However, the marginal likelihood is a scaling factor irrelevant to \(Y\), the response, so we drop the term for now.</p>
+
+<p>This makes the naive Bayes a <span class="name">generative</span> model, one that learns the joint probability \(Pr(X, Y) = Pr(X|Y) Pr(Y)\) instead of the conditional probability \(Pr(Y|X)\). Typically, an algorithm like linear regression learns the response given a number of predictors. These are <span class="name">discriminative</span> models. Naive Bayes learns the probability of predictors given a response. In other words, it looks at how likely it is for each response label to have a set of predictor features. Then, when it comes to predict new data, the compares it against each class.</p>
+
+<p>Suppose that we drop the marginal likelihood. Then, </p>
+
+$$
+\begin{align}
+Pr(Y|X) & \propto Pr(X|Y) Pr(Y) \\
+& = Pr(x_1, \dots, x_n|Y) Pr(Y) \\
+& = Pr(x_1|x_2, \dots, x_n, Y) Pr(x_2|x_3,\dots,x_n,Y)\dots Pr(x_n|Y) Pr(Y)
+\end{align}
+$$ 
+
+<p>If each feature is binary, notice that \(x_1\) depends on \(n-1\) features, which has \(2^{n-1}\) possibilities. This becomes unwieldly for even a small number of features. This is where the "naive" part comes in. Naive Bayes <span class="important">assumes conditional independence of each feature</span>, that is that each feature is independent from each other given \(Y\). This has the effect of reducing dependence on \(n\) possibilities.</p>
+
+$$
+\begin{align}
+Pr(Y|X) & \propto Pr(x_1|Y) Pr(x_2|Y)\dots Pr(x_n|Y) Pr(Y) \\
+& = Pr(Y) \prod_{i=1}^n Pr(x_i|Y)
+\end{align}
+$$
+
+<p>In order to avoid underflow and reduce computational complexity, we take the negative log to obtain the <span class="name">negative log likelihood</span>, our cost function.</p>
+
+$$J(X, Y) = Pr(Y) + \sum_{i=1}^n \mathrm{log}(Pr(x_i|Y))$$
+
+<p>The objective is</p>
+
+$$\mathrm{min} \hspace{2mm} J(X, Y)$$
+
+<p>If the probabilities are discrete, then it might be possible to solve for the parameters from a table. Otherwise, there are 3 common methods to estimate the likelihood.
+	<ul>
+		<li>Gaussian NB. \(p(x|Y) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)</li>
+		<li>Multinomial NB. \(p(x|Y_k) = \frac{(\sum_i x_i)!}{\prod_i x_i!} \prod_i p_{ki}^{x_i} \)</li>
+		<li>Bernoulli NB. \(p(x|Y_k) = \prod_{i=1}^n p_{ki}^{x_i} (1-p_{ki})^{(1-x_i)}\)</li>
+	</ul>
+where there are \(k\) classes.</p>
+
+<p>Gaussian is typically useful when there is continuous data. Multinomial is when there are multiple classes of data. Bernoulli is for when data is binary. In Python, they are represented by classes <span class="code">sklearn.naive_bayes.GaussianNB</span>, <span class="code">sklearn.naive_bayes.MultinomialNB</span>, and <span class="code">sklearn.naive_bayes.BernoulliNB</span>, respectively.</p>

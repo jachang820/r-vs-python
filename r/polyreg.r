@@ -13,4 +13,4 @@ test = subset(df, split == FALSE)
 poly_model = lm(y ~ polym(x1, x2, x3, degree=4), data=train)
 
 # Predict test set
-y_pred = predict(poly_model, newdata=test)
+y_pred = predict(poly_model, newdata=test[, -ncol(test)])

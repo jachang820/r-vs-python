@@ -18,4 +18,4 @@ model = lm(y ~ ., data=train)
 # if there are 3 features in the dataset.
 
 # Predict test set
-y_pred = predict(model, newdata=test)
+y_pred = predict(model, newdata=test[, -ncol(test)])

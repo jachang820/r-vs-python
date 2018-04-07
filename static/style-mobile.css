@@ -106,12 +106,7 @@
 		padding-bottom: 5px;
 	}
 
-	.name {
-		font-style: italic;
-	}
-
 	.code {
-		font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 		font-size: 80%;
 	}
 

@@ -1,3 +1,14 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Gives statistical significance of features.</td>
+		<td class="cons">Linear regression assumptions include lack of multi-colinearity, heteroskedascity, weak exogeneity, and independence of errors.</td>
+	</tr>
+</table>
+
 <h2>The Sigmoid Function</h2>
 
 <p>Logistic regression begins with a linear model, but uses a hypothesis function to frame the problem in terms of probabilities. Its motivation probably began with the zero-mean, standard variance Gaussian \(\mathcal{N}(0, 1)\), also characterized by the <span class="name">z-score</span> function \(\Phi(x)\). Given a linear model \(\theta^T x\), we could transform it into the probability space with</p>
@@ -54,7 +65,14 @@ L(\theta|x) & = Pr(Y|X; \theta) \\
 \end{align}
 $$
 
-<p>The last line assumes that the response \(y = \pm 1\); therefore, one of the terms must become identity. Since this product isn't convex, and is difficult to calculate, and taking the log doesn't change the problem, we take the log and flip the sign to obtain a convex function, the <span class="name">negative log likelihood</span>.</p>
+<p>The last line assumes that the response \(y = \pm 1\); therefore, one of the terms must become identity. There are two problems here:
+	<ul>
+		<li>Computational complexity of multiplications, especially of very small decimals, is more expensive than additions.</li>
+		<li>Multiplication of many very small decimals quickly results in underflow, where the number becomes smaller than what the computer could represent. Numerical manipulations to avoid this is complicated, and might result in other issues like aliasing or rounding.</li>
+	</ul>
+</p>
+
+<p>Since the function is monotonic, taking the log doesn't change the problem, we take the log and flip the sign to obtain the <span class="name">negative log likelihood</span>. Due to the properties of logs, this function now involves a sum instead of a product.</p>
 
 $$LL(\theta|x) = -\sum_{i=1}^n \left[ y^{(i)} \mathrm{log}(g(x; \theta)) + (1-y^{(i)}) \mathrm{log}(1-g(x; \theta))\right]$$
 

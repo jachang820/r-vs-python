@@ -15,12 +15,12 @@ test = subset(df, split == FALSE)
 install.packages('rpart')
 library(rpart)
 
-# Fit CART regression to training set
+# Fit CART classifier to training set
 model = rpart(y ~ ., data=train, 
 							control=rpart.control(minsplit=1))
 
 # Predict test set
-y_pred = predict(model, newdata=test[, -ncol(test)])
+y_pred = predict(model, newdata=test[, -ncol(test)], type="class")
 
 # Plot dendrogram
 plot(model)

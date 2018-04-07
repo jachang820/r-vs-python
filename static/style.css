@@ -46,6 +46,24 @@ td {
 	font-family: 'RobotoLight', sans-serif;
 }
 
+.important {
+	background-color: #fcc;
+}
+
+.code {
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+.pros {
+	width: 30vw;
+	background-color: #b3ecff;
+}
+
+.cons {
+	width: 30vw;
+	background-color: #ffcccc;
+}
+
 @media only screen and (min-width: 576px) {
 
 	#container {
@@ -149,7 +167,6 @@ td {
 	}
 
 	.code {
-		font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 		font-size: 90%;
 	}
 

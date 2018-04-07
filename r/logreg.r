@@ -18,5 +18,5 @@ test[, 1:2] = scale(test[, 1:2])
 model = glm(y ~ ., family=binomial, data=train)
 
 # Predict test set
-probability = predict(model, type='response', newdata=test[,-ncol(test)])
+probability = predict(model, type='response', newdata=test[, -ncol(test)])
 y_pred = as.numeric(probability > 0.5)

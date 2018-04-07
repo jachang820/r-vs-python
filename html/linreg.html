@@ -1,3 +1,16 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Gives statistical significance of features, linearity.</td>
+		<td class="cons">Linear regression assumptions include lack of multi-colinearity, heteroskedascity, weak exogeneity, and independence of errors.</td>
+	</tr>
+</table>
+
+<h2>Ordinary Least Square</h2>
+
 <p>Linear regression fits a straight line through the means of each input feature. In almost all cases, data isn't perfectly linear. Consider a simple linear equation in slope-intercept form \(y = ax+b\). If all data fits on this line, then we could say that, equivalently, \(y - (ax + b) = 0\). Since data isn't perfectly linear, there is a small error we call the <span class="name">residual</span>, such that \(r = y - (ax + b)\). We generalize this formula to <span class="name">n</span> dimensions, each representing a feature.</p>
 
 $$y - (w_1 x_1 + \dots + w_n x_n + b) = r$$
@@ -22,6 +35,8 @@ $$\mathrm{MSE} = \frac{1}{m} \sum_{i=1}^m (y^{(i)} - \hat{y}^{(i)})^2$$
 
 $$\begin{align}J_x (\theta) & = \frac{1}{2m} \sum_{i=1}^m (y^{(i)} - \theta^{*T} \widetilde{x}^{(i)})^2 \\ \frac{\partial J}{\partial \theta_j} & = \frac{1}{m} \sum_{i=1}^m (y^{(i)} - \theta^{*T} \widetilde{x}^{(i)}) (-\widetilde{x}^{(i)}_j) (j = 1, \dots, n) \end{align}$$
 
+<h2>Estimator solutions</h2>
+
 <p>At this point, we can solve for the minimum as an <span class="name">ordinary least squares (OLS)</span> estimator using <span class="name">normal equations</span> by setting the derivative to 0 and rearranging.</p>
 
 $$\begin{align} \frac{\partial J}{\partial \theta_j} = 0 & = \frac{1}{m} \sum_{i=1}^m (y^{(i)} - \theta^{*T} \widetilde{x}^{(i)}) (-\widetilde{x}^{(i)}_j) (j = 1, \dots, n)\\ \sum_{i=1}^m \widetilde{x}^{(i)}_j y^{(i)} & = \sum_{i=1}^m \sum_{k=1}^n \widetilde{x}^{(i)}_j \widetilde{x}^{(i)}_k \theta^{*}_j \\ (\tilde{X}^T \tilde{X}) \theta^{*} & = \tilde{X}^T y \\ \theta^{*} & = (\tilde{X}^T \tilde{X})^{-1} \tilde{X}^T y \end{align}$$
@@ -31,6 +46,8 @@ $$\begin{align} \frac{\partial J}{\partial \theta_j} = 0 & = \frac{1}{m} \sum_{i
 $$\theta_{j,t+1} = \theta_{j,t} - \alpha \frac{\partial J}{\partial \theta_j}$$
 
 <p>\(\alpha\) is called the <span class="name">learning rate</span>, an empirical small number used to reduce step size, and prevent overshooting the minimum. A good \(\alpha\) is found by trial and error, although a typical value might be on the order of 0.01. The iterative process stops when the update is sufficiently small, due to a small slope. For instance, it might stop when \(\theta_{j,t+1} - \theta_{j,t} \leq 10^{-6}\).</p>
+
+<h2>Assumptions of Linear Regression</h2>
 
 <p>Despite its popularity due to its simplicity, linear regression is limited in its use, and requires 5 assumptions:
 	<ul>

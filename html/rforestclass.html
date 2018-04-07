@@ -11,7 +11,7 @@
 
 <p>Random forest regression is the same as the random forest classification except for the impurity function used. See <span class="name">decision tree</span> for more information.</p>
 
-<h2>Bootstrap Aggregating</h2>
+<h2>Bootstrap aggregating</h2>
 
 <p>Random forest is an <span class="name">ensemble</span> algorithm, meaning it uses multiple learning algorithms, or one learning algorithm multiple times, to achieve better predictions. Specifically, it applies the <span class="name">bootstrap aggregating (bagging)</span> method to decision trees. Bagging helps reduce variance to avoid overfitting. Given a training set, bagging randomly generates \(n\) subsets of one particular size \(k\), and trains a model on each. It then averages the output, in the case of regression. With random forest, we have \(n\) decision trees built off of random subsets of the data. </p>
 

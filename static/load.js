@@ -83,7 +83,7 @@ var expand_menu = function() {
 		menu_timeout = setTimeout(function() {
 			$('nav').show();
 			menu_is_open = true;	
-		}, 1750);
+		}, 1500);
 
 	} else {
 		$('#nav-expand-open').attr('id', 'nav-expand');

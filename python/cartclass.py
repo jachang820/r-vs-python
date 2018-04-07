@@ -10,9 +10,9 @@ y = df.iloc[:, -1].values
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# Fit random forest regression to training set
-from sklearn.ensemble import RandomForestRegressor
-model = RandomForestRegressor(n_estimators=100)
+# Fit CART classifier to training set
+from sklearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier()
 model.fit(X_train, y_train)
 
 # Predict test set

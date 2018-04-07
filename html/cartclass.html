@@ -9,7 +9,7 @@
 	</tr>
 </table>
 
-<p>CART regression is the same algorithm as CART classification except that new values take on the mean of the leaf node instead of the category of the leaf node. The impurity function used is different.</p>
+<p>CART classification is the same algorithm as CART regression except that new values take on the category of the leaf node instead of the mean of the leaf node. The impurity function used is different.</p>
 
 <h2>CART</h2>
 
@@ -41,7 +41,7 @@ P_{right} (\theta) & = P_{all} \setminus P_{left} (\theta)
 \end{align}
 $$
 
-<p>We want to find the split \(\theta^{*}\) that minimizes the impurity, based on the impurity function \(H()\), which is the heuristic used. Let \(n_{left}\) and \(n_{right}\) be the number of points in node \(m\) in the left and right partitions, respectively. Let \(N_m\) be the total number of points in node \(m\). We define</p>
+<p>We want to find the split \(\theta^{*}\) that minimizes the impurity, based on the impurity function \(H()\), which is the heuristic used. Let \(n_{left}\) and \(n_{right}\) be the number of points in node \(m\) in the left and right partitions, respectively. Let \(N_m\) be the total number of points in node \(m\). We define the cost function</p>
 
 $$G(P, \theta) = \frac{n_{left}}{N_m} H(P_{left} (\theta)) + \frac{n_{right}}{N_m} H(P_{right} (\theta))$$
 
@@ -57,17 +57,40 @@ $$\theta^{*} = \mathrm{min}_{\theta} G(P, \theta)$$
 </ul>
 </p>
 
-<h2>Impurity Function</h2>
+<h2>Impurity</h2>
 
-<p>In Python, the default impurity function used for decision tree regression is <span class="name">mean square error (MSE)</span>. Let \(c_m\) be the mean response for a node \(m\).</p>
+<p>The impurity function for decision tree classification compares a metric function on a set against the subset. <span class="name">Gini index</span>, a measure of the probability a randomly selected element is mislabeled, is almost universally used. Let \(Pr(y_i)\) be the probability of a single class. Then the sum of the probabilities of all other classes is the probability of mislabeling the class, \(\sum_{j \neq i} Pr(y_j) = 1 - Pr(y_i)\), \(i=1,\dots, k\). The Gini index sums up mislabeling of all classes. Let \(S\) be the set.</p>
 
 $$
 \begin{align}
-c_m & = \frac{1}{N_m} \sum_{i \in N_m} y_i \\
-H(P_m) & = \frac{1}{N_m} \sum_{i \in N_m} (y_i - c_m)^2
+H_{Gini}(P) & = \sum_{i=1}^k Pr(y_i) \sum_{j \neq i} Pr(y_j) \\
+& = \sum_{i=1}^k Pr(y_i) (1 - Pr(y_i)) \\
+& = \sum_{i=1}^k (Pr(y_i) - Pr(y_i)^2) \\
+& = \sum_{i=1}^k Pr(y_i) - \sum_{i=1}^k Pr(y_i)^2 \\
+& = 1 - \sum{i=1}^k Pr(y_i)^2
 \end{align}
 $$
 
-<p> In R, the default impurity function is <span class="name">analysis of variance (ANOVA)</span>, a complex process that works with the sum of squares, mean squares, and variance ratio F-test.</p>
+<p>Historically, and for exploratory analysis, <span class="name">entropy</span> is also used. Entropy is the average amount of information produced. Suppose we want to encode the probability of a class, for example with Huffman coding. Then it stands to reason that the lower the probability, the more bits it would take to encode it. For example, flipping a coin with \(Pr(y) = \frac{1}{2}\) produces 1 bit of information, where the result is either 0 or 1. Therefore, the <span class="name">information content</span> function is</p>
+
+$$
+\begin{align}
+I(y_i) & = \mathrm{log}_2 (\frac{1}{Pr(y_i)}) \\
+& = - \mathrm{log}_2 (Pr(y_i))
+\end{align}
+$$
+
+<p>Entropy, then, is the sum of probabilities of the information contents of each class.</p>
+
+$$
+\begin{align}
+H_{entropy}(P) & = \sum_{i=1}^k Pr(y_i) I(y_i) \\
+& = - \sum_{i=1}^k Pr(y_i) \mathrm{log}_2 (Pr(y_i))
+\end{align}
+$$
+
+<p>Note that an alternative formulation is to maximize the gain function instead of minimizing the cost function. The gain function here is either the Gini gain or the information gain (for entropy).</p>
+
+<p>The two metrics are, for all intents and purposes, indistinguishable. A mathematically exhaustive study proved that they differ in less than 2% of conditions (<a href="https://www.unine.ch/files/live/sites/imi/files/shared/documents/papers/Gini_index_fulltext.pdf">source</a>). However, Gini impurity is usually used since it is less computationally expensive to calculate a square than logarithms.</p>
 
 <p>It is recommended to <span class="important">use cross-validation to find the optimal depth to prevent overfitting</span>.</p>
