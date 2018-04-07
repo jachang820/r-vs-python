@@ -1,0 +1,40 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Good scalability with number of samples. Good with small to medium number of clusters, flat geometry. Very efficient.</td>
+		<td class="cons">Assumes clusters are convex and isotropic. Responds poorly to irregular shapes or elongated clusters. Susceptible to curse of dimensionality.</td>
+	</tr>
+</table>
+
+<h2>Clustering</h2>
+
+<p>K-means is a clustering algorithm. Clustering differs from classification in that it is unsupervised. While classification problems begin with a number of labels, and we wish to predict which label future points fall under, clustering problems begin with no labels, and we wish to find out how to separate a dataset into a given number of labels. Often, the number of labels is unknown, so we run the k-means multiple times, while changing \(k\). The algorithm is simple.
+	<ol>
+		<li>Randomly select \(k\) data points to be the <span class="name">centroids</span> \(c_j\), \(j=\left\{1,k\right\}\).</li>
+		<li>Iterate through each point \(x_i\), \(i=\left\{1,m\right\}\), and find the distance between \(x_i\) and each \(c_j\).</li>
+		<li>Assign \(x_i\) to the cluster with the nearest centroid.</li>
+		<li>After all points are assigned to a cluster, calculate the means of each cluster, and let that mean be the new centroids.</li>
+		<li>Repeat steps 2-4 until there are no more changes.</li>
+	</ol>
+</p>
+
+<p>The distance algorithm used is usually the Euclidean, hence the name k-mean. However, sometimes other distances are used, like the L1-norm, in which the cluster centers are <span class="name">medoids</span>, and the algorithm becomes k-medoids. For the rest of this discussion, we assume the standard. </p>
+
+<h2>K-Means++</h2>
+
+<p>Since the initial centroids are randomly selected, there are cases where the resulting clusters are clearly sub-optimal. For example, suppose there are 3 populations centered around the corners of an isoceles triangle, with 2 populations close to each other. An optimal cluster would correctly label these clusters. However, if the initial seeds put 2 centroids in the furthest population, and 1 within the 2 closer populations, then the 2 closer populations would form 1 cluster, and the furthest population would be split into 2 clusters. A recent improvement is the <span class="name">k-means++</span> algorithm, which changes the method of the initial seeding process.
+	<ol>
+		<li>Choose one centroid at random from the data points.</li>
+		<li>Iterate through each point \(x_i\), and computer the distance \(d_i\) to the nearest centroid.</li>
+		<li>Choose a new centroid at random from the data points, but using a weighted probability distribution where \(x_i\) is chosen with probability proportional to \(d^2_i\).</li>
+		<li>Repeat steps 2-3 until \(k\) centroids have been chosen.</li>
+	</ol>
+</p>
+
+<p>A method prior to k-means++ might have run k-means multiple times to find the best results. The authors of k-means++ claims that, despite the extra steps for initial seeding, k-means++ typical improves speed by 2 times, since it converges faster, and improves accuracy up to 1000 times (<a href="https://web.archive.org/web/20060209181757/http://www.cs.umd.edu/~mount/Papers/kmlocal.pdf">source</a>). This method is the default of parameter <span class="code">init='k-means++'</span> in Python. However, in R, it requires the <span class="code">ClusterR</span> package.</p>
+
+<h2>Minimizing WCSS</h2>
+
