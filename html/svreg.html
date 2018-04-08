@@ -11,9 +11,9 @@
 
 <h2>Optimal margins</h2>
 
-<p>Support vector regression (SVR) takes the popular classification algorithm <span class="name">Support vector machine (SVM)</span> and makes some small changes to support regression. The idea is that we want to find a regression \(\hat{y} = w^T x + b\) that maximizes margins, such that the positive and negative hyperplanes are \(\hat{y} \pm \varepsilon \), which are parallel to \(\hat{y}\) and intersects the furthest points. Intuitively, the best estimate should have the maximum possible \(\varepsilon\). The points that intersect the positive and negative hyperplanes are called <span class="name">support vectors</span>.</p>
+<p>Support vector regression (SVR) takes the popular classification algorithm <span class="name">Support vector machine (SVM)</span> and makes some small changes to support regression. The idea is that we want to find an optimal hyperplane \(\hat{y} = w^T x + b\) that maximizes margins, such that the positive and negative hyperplanes are \(\hat{y} \pm \varepsilon \), which are parallel to \(\hat{y}\) and intersects the furthest points. Intuitively, the best estimate should have the maximum possible \(\varepsilon\). The points that intersect the positive and negative hyperplanes are called <span class="name">support vectors</span>.</p>
 
-<p>Note that in typical linear regression, we use the least squares regression, such that distance from the regression is measured within each dimension. However, since support vectors are parallel to the regression, we must use the geometric distance, which is the length of the vector orthogonal to \(\hat{y}\). This happens to be the parameter \(w\), and the unit vector is \(\frac{w}{||w||}\), such that \(\left(\frac{w}{||w||}\right)^T x^{(i)}\) is the orthogonal distance from the classifier boundary to \(x^{(i)}\). Therefore, the geometric estimate is</p>
+<p>Note that in typical linear regression, we use least squares regression, such that distance from the regression line is measured within each dimension. However, since we want to find the width of the margins, we must use the geometric distance, which is the length of the vector orthogonal to \(\hat{y}\). This happens to be the parameter \(w\), and the unit vector is \(\frac{w}{||w||}\), such that \(\left(\frac{w}{||w||}\right)^T x^{(i)}\) is the orthogonal distance from the optimal hyperplane to \(x^{(i)}\). Therefore, the geometric estimate is</p>
 
 $$y^{(i)} - \left(\left(\frac{w}{||w||}\right)^T x^{(i)} + \frac{b}{||w||}\right) = r^{(i)}$$
 
@@ -21,7 +21,7 @@ $$y^{(i)} - \left(\left(\frac{w}{||w||}\right)^T x^{(i)} + \frac{b}{||w||}\right
 
 $$y^{(i)} - (w^T x^{(i)} + b) = r^{(i)}$$
 
-<p>Since scaling doesn't affect the model, we assume this to be the case(\(||w||=1\)). The constraints to support vector regression are, therefore, as such.</p>
+<p>Since scaling doesn't affect the model, we assume this to be the case (\(||w||=1\)). The constraints to support vector regression are, therefore, as such.</p>
 
 $$
 \begin{align}

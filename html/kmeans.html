@@ -13,7 +13,7 @@
 
 <p>K-means is a clustering algorithm. Clustering differs from classification in that it is unsupervised. While classification problems begin with a number of labels, and we wish to predict which label future points fall under, clustering problems begin with no labels, and we wish to find out how to separate a dataset into a given number of labels. Often, the number of labels is unknown, so we run the k-means multiple times, while changing \(K\). The algorithm is simple.
 	<ol>
-		<li>Randomly select \(K\) data points to be the <span class="name">centroids</span> \(\mu_k\), \(j=\left\{1,K\right\}\).</li>
+		<li>Randomly select \(K\) observations to be the <span class="name">centroids</span> \(\mu_k\), \(j=\left\{1,K\right\}\).</li>
 		<li>Iterate through each point \(x^{(i)}\), \(i=\left\{1,m\right\}\), and find the distance between \(x^{(i)}\) and each \(\mu_k\), \(d(x^{(i)}, \mu_k)\).</li>
 		<li>Assign \(x^{(i)}\) to the cluster \(C_k\) with the nearest centroid.</li>
 		<li>After all points are assigned to a cluster, calculate the means of each cluster, and let that mean be the new centroids.</li>
@@ -27,9 +27,9 @@
 
 <p>Since the initial centroids are randomly selected, there are cases where the resulting clusters are clearly sub-optimal. For example, suppose there are 3 populations centered around the corners of an isoceles triangle, with 2 populations close to each other. An optimal cluster would correctly label these clusters. However, if the initial seeds put 2 centroids in the furthest population, and 1 within the 2 closer populations, then the 2 closer populations would form 1 cluster, and the furthest population would be split into 2 clusters. A recent improvement is the <span class="name">k-means++</span> algorithm, which changes the method of the initial seeding process.
 	<ol>
-		<li>Choose one centroid at random from the data points.</li>
+		<li>Choose one centroid at random from the observations.</li>
 		<li>Iterate through each point \(x^{(i)}\), and computer the distance \(d(x^{(i)}, \mu_k)\) to the nearest centroid.</li>
-		<li>Choose a new centroid at random from the data points, but using a weighted probability distribution where \(x^{(i)}\) is chosen with probability proportional to \(d^2\).</li>
+		<li>Choose a new centroid at random from the observations, but using a weighted probability distribution where \(x^{(i)}\) is chosen with probability proportional to \(d^2\).</li>
 		<li>Repeat steps 2-3 until \(K\) centroids have been chosen.</li>
 	</ol>
 </p>
@@ -61,4 +61,39 @@ $$SS_{TOT} = WCSS + BCSS$$
 
 <h2>Picking the Best \(K\)</h2>
 
-<p>There are a number of heuristics for picking the optimal \(K\), but ultimately, many cases may come down to visual inspection via the <span class="name">elbow method</span>. This is one of the major weaknesses of k-means.</p>
+<p>There are a number of heuristics for picking the optimal \(K\), but ultimately, many cases may come down to visual inspection via the <span class="name">elbow method</span>. This is one of the major weaknesses of k-means. Many plots of the WCSS show an obvious "L", in which increasing the number of clusters don't decrease WCSS as much thereafter -- diminishing returns. Although it isn't foolproof, we can translate this phenomenon as</p>
+
+$$K_{optimal} = \mathrm{max}_k \frac{WCSS_{k-1} - WCSS_k}{WCSS_k - WCSS_{k+1}} \hspace{1mm},\hspace{2mm} k=\left\{1,K\right\}$$
+
+<p>There are, of course, more sophisticated methods, like the <span class="name">Akaike information criterion (AIC)</span> and the <span class="name">Bayesian information criterion (BIC)</span>.</p>
+
+$$
+\begin{align}
+AIC & = 2K - 2\mathrm{ln}(\hat{L}) \\
+BIC & = \mathrm{ln}(n)K - 2\mathrm{ln}(\hat{L})
+\end{align}
+$$
+
+<p>where \(\hat{L}\) is the maximum likelihood of the model; therefore, \(-\mathrm{ln}(\hat{L})\) is the maximum negative log likelihood. \(n\) is the number of observations in the data set. \(K\) is the number of clusters. \(\mathrm{ln}(\hat{L})\) increases as \(K\) increases, so both AIC and BIC penalizes increases in \(K\) with the \(2K\) and \(\mathrm{ln}(n)K\) term respectively. If the log likelihood doesn't increase enough, then this other term will overcome it, and cause the criterion number to increase. Since the dataset usually contains more than 8 observations, BIC is much more conservative, as \(\mathrm{ln}(n)K > 2K\), if \(K > 8\).</p>
+
+<p>In practical implementation, the following algorithm is taken from SPSS TwoStep cluster analysis (<a href="https://stats.stackexchange.com/questions/55147/compute-bic-clustering-criterion-to-validate-clusters-after-k-means/183097#183097">source</a>):</p>
+
+<pre>
+X is data matrix, N objects x P quantitative variables.
+Y is column of length N designating cluster membership; clusters 1, 2,..., K.
+1. Compute 1 x K row Nc showing number of objects in each cluster.
+2. Compute P x K matrix Vc containing variances by clusters.
+   Use denominator "n", not "n-1", to compute those, because there may be clusters with just one object.
+3. Compute P x 1 column containing variances for the whole sample. Use "n-1" denominator.
+   Then propagate the column to get P x K matrix V.
+4. Compute log-likelihood LL, 1 x K row. LL = -Nc &* csum( ln(Vc + V)/2 ),
+   where "&*" means usual, elementwise multiplication;
+   "csum" means sum of elements within columns.
+5. Compute BIC value. BIC = -2 * rsum(LL) + 2*K*P * ln(N),
+   where "rsum" means sum of elements within row.
+6. Also could compute AIC value. AIC = -2 * rsum(LL) + 4*K*P
+
+Note: By default SPSS TwoStep cluster procedure standardizes all
+quantitative variables, therefore V consists of just 1s, it is constant 1.
+V serves simply as an insurance against ln(0) case.
+</pre>

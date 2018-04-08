@@ -91,4 +91,8 @@
 		<name>rforestclass</name>
 		<text>Random Forest Classification</text>
 	</item>
+	<item>
+		<name>kmeans</name>
+		<text>k-Means</text>
+	</item>
 </menu>
