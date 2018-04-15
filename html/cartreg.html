@@ -32,7 +32,7 @@
 	</ul>
 </p>
 
-<p>The CART algorithm performs an exhaustive search between each data point in node \(m = \mathcal{D} | (\theta^{*}_1, \dots, \theta^{*}_{k-1})\) (the subset of data given previous splits) on each feature for candidate splits \(\theta(j, t_m)\), where \(j\) is the feature and \(t_m\) is the threshold. For each candidate split, it partitions the data into \(P_{left} (\theta)\) and \(P_{right} (\theta)\) subsets.</p>
+<p>The CART algorithm performs an exhaustive search between each data point in node \(m = \mathcal{D} | (\theta^{*}_1, \dots, \theta^{*}_{k-1})\) (the subset of data given previous splits) on each feature for candidate splits \(\theta(j, t_m)\), where \(j\) is the feature and \(t_m\) is the threshold. For each candidate split, it partitions the data into \(P_{left} (\theta)\) and \(P_{right} (\theta)\) subsets. It only needs to search boundaries within categorical features where classes change, such that \(x^{(i)}_j \neq x^{(i+1)}_j)\, because any shift from those points will necessarily increase error. </p>
 
 $$
 \begin{align}

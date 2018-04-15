@@ -20,8 +20,8 @@
 		<text>K-Folds Cross-Validation on Feature Matrix</text>
 	</item>
 	<item>
-		<name>findbestparam</name>
-		<text>K-Folds Cross-Validation to Find Best Hyperparameter</text>
+		<name>gridsearch</name>
+		<text>Grid Search to Find Best Hyperparameter</text>
 	</item>
 	<item>
 		<name>scatterplot</name>
@@ -94,5 +94,9 @@
 	<item>
 		<name>kmeans</name>
 		<text>k-Means</text>
+	</item>
+	<item>
+		<name>pca</name>
+		<text>Principle Component Analysis</text>
 	</item>
 </menu>

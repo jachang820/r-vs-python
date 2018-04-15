@@ -1,0 +1,60 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Good scalability, can be applied on all datasets without special assumptions.</td>
+		<td class="cons">Meaning of original features may be lost and difficult to assess on latent variables.</td>
+	</tr>
+</table>
+
+<h2>Feature Reduction</h2>
+
+<p>PCA uses orthogonal transformation to convert data into an \(n\)-dimensional ellipsoid centered at 0. The axes of the ellipsoid are principle components. After normalization, the goal is to eliminate the axes with the least variance for several reasons.
+	<ul>
+		<li>Features with very small variances might indicate colinearity, or interdependency in other features. Eliminating these features may not lose much information. Suppose there is are 2 highly dependent features that, with some small error, lie almost perfectly on a regression line. We could project the dimensions onto that line and turn it into 1 feature. Analogously, we could treat a piece of paper as a 2 dimensional object because there is not much variance in its depth, since it is visibly flat.</li>
+		<li>We may want to find only the most relevant features in a dataset that's too large or convoluted. Suppose that due to whatever constraints, we only want to work with the top 10 features, when there are 1000. We could manually select features with domain knowledge or some statistical metric like p-tests. PCA automates this process for us.</li>
+		<li>We may want to design a visualization that illustrates the model in a report, but don't know the best features to use. We could use PCA to reduce the dimensionality to 2 or 3 in order to graph them.</li>
+	</ul>
+</p>
+
+<p>Variants of this algorithm is known by many names in different fields, including <span class="name">singular value decomposition (SVD)</span> or <span class="name">eigenvalue decomposition (EVD)</span> in linear algebra, the <span class="name">discrete Karhunen-Loeve transform (KLT)</span> in signal processing, the <span class="name">proper orthogonal decomposition (POD)</span> in mechanical engineering, and <span class="name">spectral decomposition</span> in abstract algebra.</p>
+
+<p>More formally, we want to project the features into a \(k\)-dimensional subspace (\(k < n\)) sorted by descending variance. This transformation is applied by a vector of weights, or <span class="name">loadings</span> \(w_{(j)} = (w_1, \dots, w_m)_{(j)}\) that map each example \(x^{(i)}\) to a vector of principle component scores \(t^{(i)} = (t_1, \dots, t_k)^{(i)}\), such that \(t^{(i)}_j = x^{(i)}) w_{(j)}\), \(i=1, \dots, n\), and \(j=1, \dots, k\). Here \(n\) is the number of examples in the dataset, \(m\) is the number of original features, and \(k\) is the new vector of principle components. Therefore, \(X\) is an \(n \times m\) matrix and \(x^{(i)} \in X\) is \(1 \times m\), and \(w\) is \(m \times k\), such that \(t\) is \(n \times k\). Since the dataset has been normalized, the loading vector \(w\) is a normal vector, such that \(||w||_2 = 1\).</p>
+
+<p>We want to find the principle components with greatest variance. Therefore, the first component is defined as</p>
+
+$$
+\begin{align}
+w_{(1)} &= \text{arg max}_{||w||=1} \frac{1}{n} \sum_{i=1}^n (t^{(i)}_1)^2 \\
+&= \text{arg max}_{||w||=1} \frac{1}{n} \sum_{i=1}^n (x^{(i)} w)^2 \\
+&= \text{arg max}_{||w||=1} \frac{1}{n} ||Xw||^2 \\
+&= \text{arg max}_{||w||=1} \frac{1}{n} w^T X^T X w
+\end{align}
+$$
+
+<p>It is evident that \(X^T X\) is the Gram matrix, so it is positive semidefinite, and since \(||w||_2 = 1\), maximizing the variance of the projections yield the <span class="name">principal eigenvector</span>. With zero mean, this is also the <span class="name">empirical covariance matrix</span>. Therefore, we define</p>
+
+$$\Sigma = \frac{1}{n} ||X||^2$$
+
+<p>We can find additional components by subtracting prior components to ensure orthogonality, and then finding the next loading vector.</p>
+
+$$
+\begin{align}
+X_k &= X - \sum_{j=1}^{k-1} X w_{(j)} w^T_{(j)} \\
+w_{(k)} &= \text{arg max}_{||w||=1} \frac{1}{n} ||Xw||^2
+$$
+
+<p>The loading vector \(w\) is then the orthogonal basis. The principle components vector \(t\) represents the dataset \(x\) in this new basis.</p>
+
+$$
+\begin{align}
+t^{(i)} &= \begin{bmatrix}
+w^T_1 x^{(i)} \\ w^T_2 x^{(i)} \\ \vdots \\ w^T_k x^{(i)}
+\end{bmatrix} \in \mathbb{R}^k \\
+T &= XW
+\end{align}$$
+
+<p>The transpose of \(W\), a \(k \times k\) matrix, \(W^T\) is also called the <span class="name">sphering transformation</span>.</p>
+

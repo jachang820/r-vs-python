@@ -5,7 +5,7 @@
 	</tr>
 	<tr>
 		<td class="pros">Efficient, nonlinear, generative, not biased by outliers.</td>
-		<td class="cons">Assumes all features have same statistical relevance.</td>
+		<td class="cons">Assumes all features have same statistical relevance, since it is biased by a priori.</td>
 	</tr>
 </table>
 
@@ -15,7 +15,7 @@ $$ Pr(Y|X) = \frac{Pr(X|Y) Pr(Y)}{Pr(X)}$$
 
 <p>\(Pr(Y|X)\) is called the <span class="name">a posteriori</span> term, Latin for after the fact. It is the probability of the response given that we know the predictors. \(Pr(Y)\) is called the <span class="name">a priori</span> term, Latin for before the fact. It is the probability of the response before we know anything about the predictors. The relation that connects these two is the term \(Pr(X|Y)\), called the <span class="name">likelihood</span>. On the bottom, \(Pr(X)\) is called the <span class="name">marginal likelihood</span>. It is marginal because it frames the problem within the probability of the predictors, instead of the overall probability space. However, the marginal likelihood is a scaling factor irrelevant to \(Y\), the response, so we drop the term for now.</p>
 
-<p>This makes the naive Bayes a <span class="name">generative</span> model, one that learns the joint probability \(Pr(X, Y) = Pr(X|Y) Pr(Y)\) instead of the conditional probability \(Pr(Y|X)\). Typically, an algorithm like linear regression learns the response given a number of predictors. These are <span class="name">discriminative</span> models. Naive Bayes learns the probability of predictors given a response. In other words, it looks at how likely it is for each response label to have a set of predictor features. Then, when it comes to predict new data, the compares it against each class.</p>
+<p>This makes the naive Bayes a <span class="name">generative</span> model, one that learns the joint probability \(Pr(X, Y) = Pr(X|Y) Pr(Y)\) instead of the conditional probability \(Pr(Y|X) = \frac{Pr(X, Y)}{Pr(X)}\). Typically, an algorithm like linear regression learns the response given a number of predictors. These are <span class="name">discriminative</span> models. Naive Bayes learns the probability of predictors given a response. In other words, it looks at how likely it is for each response label to have a set of predictor features. Then, when it comes to predict new data, the compares it against each class. It is, thus, able to generate the data.</p>
 
 <p>Suppose that we drop the marginal likelihood. Then, </p>
 
@@ -53,3 +53,31 @@ $$\mathrm{min} \hspace{2mm} J(X, Y)$$
 where there are \(k\) classes.</p>
 
 <p>Gaussian is typically useful when there is continuous data. Multinomial is when there are multiple classes of data. Bernoulli is for when data is binary. In Python, they are represented by classes <span class="code">sklearn.naive_bayes.GaussianNB</span>, <span class="code">sklearn.naive_bayes.MultinomialNB</span>, and <span class="code">sklearn.naive_bayes.BernoulliNB</span>, respectively.</p>
+
+<h2>Zero Probabilities</h2>
+
+<p>Since all probabilities are multiplied together, it is a problem if there are no samples for a given predictor value (e.g. no samples in which \(x_1 = {FALSE}\)). One possible solution is to add a dummy value if there are no samples, but this could distort the probabilities too much, especially for smaller datasets. Another possible solution is <span class="name">add-one smoothing</span>, also called <span class="name">Laplace smoothing</span>. This method updates each class, such that, instead of</p>
+
+$$Pr(Y|X) = \frac{Pr(X, Y)}{Pr(X)}$$
+
+<p>it becomes</p>
+
+$$Pr(Y|X) = \frac{Pr(X,Y) + 1}{Pr(X) + V}$$
+
+<p>where \(V\) is all the predictor combinations. This ensures that
+	<ul>
+		<li>Even if \(Pr(X, Y) = 0\), \(Pr(Y|X) \neq 0\).</li>
+		<li>All the probabilities still add up to 1.</li>
+	</ul>
+</p>
+
+<p>This may still give too much weight to unseen classes, so it is more common to use <span class="name">general additive smoothing</span>.</p>
+
+$$
+\begin{align}
+Pr(Y|X) & = \frac{Pr(X,Y) + \lambda}{Pr(X) + \lambda V} \\
+& s.t. \hspace{2mm} 0 \leq \lambda \leq 1
+\end{align}
+$$
+
+<p>If \(\lambda = 0\), then no smoothing is applied. If \(\lambda = 1\), then it becomes add-one smoothing.</p>
