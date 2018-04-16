@@ -16,13 +16,20 @@ sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
-# Apply PCA
-from sklearn.decomposition import KernelPCA
+# Apply LDA
+# Find optimal components with variance ratio
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+lda = LinearDiscriminantAnalysis(n_components=None)
+X_train = lda.fit_transform(X_train, y_train)
+X_test = lda.transform(X_test)
 
-# Use variance ratio to decide cutoff
-# Number of components can also be specified by an int
-# Default kernel is 'linear', which is same as linear PCA
 threshold = 0.60
-pca = PCA(n_components=threshold, svd_solver='full', kernel='rbf')
+for i in range(len(pca.explained_variance_ratio_)):
+	if np.sum(pca.explained_variance_ratio_[0:(i+1)]) > threshold:
+		ldaComp = i + 1
+		break
+
+# Apply LDA
+pca = PCA(n_components=ldaComp)
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)

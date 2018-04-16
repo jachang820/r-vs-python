@@ -96,7 +96,15 @@
 		<text>k-Means</text>
 	</item>
 	<item>
+		<name>hclust</name>
+		<text>Hierarchical Cluster</text>
+	</item>
+	<item>
 		<name>pca</name>
 		<text>Principle Component Analysis</text>
+	</item>
+	<item>
+		<name>lda</name>
+		<text>Linear Discriminant Analysis</text>
 	</item>
 </menu>

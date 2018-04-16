@@ -19,17 +19,24 @@ wcss = Optimal_Clusters_KMeans(X,
 						initializer="kmeans++",
 						seed=42)
 
-delta_wcss = vector(mode="numeric", length=length(wcss)-2)
-for (i in 2:(length(wcss)-1)) {
-  delta_wcss[i-1] = (wcss[i-1] - wcss[i])/(wcss[i] - wcss[i+1])
+delta_wcss = vector(mode='numeric', length=max_clusters-2)
+for (i in 1:(max_clusters-1) {
+  delta_wcss[i] = wcss[i] - wcss[i+1]
 }
 
-best_k = which.max(delta_wcss) + 1
+biggest_ratio = vector(mode='numeric', length=length(delta_wcss)-4)
+for (i in 1:(length(delta_wcss)-4) ) {
+  biggest_ratio[i] = mean(delta_wcss[i:(i+2]) - 
+                     mean(delta_wcss[(i+2):(i+4)])
+}
+
+best_k = which.max(biggest_ratio) + 3
 
 # Plot elbow to confirm
 library(ggplot2)
+wcss = as.vector(wcss)
 ggplot() +
-  geom_point(aes(x=best_k, y=wcss[best_k - 1]), colour='red') +
+  geom_point(aes(x=best_k, y=wcss[best_k]), colour='red') +
   geom_line(aes(x=seq.int(1,length(wcss)), y=wcss), colour='blue') +
   ggtitle('The Elbow Method') +
   xlab('Number of Clusters') +
@@ -51,5 +58,8 @@ clusplot(X,
          shade=TRUE,
          color=TRUE,
          labels=4,
-         plotchar=FALSE)
+         plotchar=FALSE,
+         main="Title",
+         xlab="Component 1",
+         ylab="Component 2")
 

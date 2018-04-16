@@ -1,0 +1,55 @@
+<h2>The Accuracy Trap</h2>
+
+<p>Haphazardly applying statistical metrics could lead dangerously to false confidence. <span class="name">Accuracy</span> is one of the most commonly used metrics to guage the success of a classification model. It is defined as</p>
+
+$$\mathrm{Accuracy} = \frac{TP+TN}{TP+TN+FP+FN}$$
+
+<p>However, there is a trap to watch out for. Suppose we are doing a study on a rare disease, and 1% of our sample of 1000 is infected. Our confusion matrix looks like this.
+
+<table>
+	<tr>
+		<th rowspan="2" colspan="2" width="10vw"><span class="name">Confusion Matrix</span></th>
+		<th colspan="2">Actual Condition</th>
+	</tr>
+	<tr>
+		<th width="5vw">Actually True</th>
+		<th width="5vw">Actually False</th>
+	</tr>
+	<tr>
+		<th rowspan="2" width="5vw">Predicted Condition</th>
+		<th width="5vw">Predict Positive</th>
+		<td>8</td>
+		<td>26</td>
+	</tr>
+	<tr>
+		<th width="5vw">Predict Negative</th>
+		<td>2</td>
+		<td>964</td>
+	</tr>
+</table>
+
+<p>Our accuracy is an impressive 97.2%! However, a simple tweak might increase the accuracy, but render the model trivial and unpredictive. Specifically, if we always predict negative, then our accuracy will be 99%, and our confusion matrix becomes</p>
+
+<table>
+	<tr>
+		<th rowspan="2" colspan="2" width="10vw"><span class="name">Confusion Matrix</span></th>
+		<th colspan="2">Actual Condition</th>
+	</tr>
+	<tr>
+		<th width="5vw">Actually True</th>
+		<th width="5vw">Actually False</th>
+	</tr>
+	<tr>
+		<th rowspan="2" width="5vw">Predicted Condition</th>
+		<th width="5vw">Predict Positive</th>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th width="5vw">Predict Negative</th>
+		<td>10</td>
+		<td>990</td>
+	</tr>
+</table>
+
+<p>This demonstrates the fallacy of relying completely on accuracy for model success. </p>

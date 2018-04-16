@@ -1,0 +1,22 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Optimal number of clusters can be automatically obtained. Works with any valid distance metric. Easy to visualize.</td>
+		<td class="cons">Doesn't scale for large datasets.</td>
+	</tr>
+</table>
+
+<h2>Minimum Spanning Trees</h2>
+
+<p>Hierarchical clustering has 2 flavors: <span class="name">agglomerative</span> and <span class="name">divisive</span>. The prior builds a tree from the bottom up, and the latter splits branches from the top down. The algorithm is similar to <span class="name">Kruskal's</span> for constructing minimum spanning trees. In fact, such a tree is constructed with this model, which can be easily visualized with a <span class="name">dendrogram</span>. The algorithm requires two metrics: <span class="name">distance</span> and <span class="name">linkage</span>. It begins by applying the distance metric pairwise between each two points. Then, it merges the points by maximizing the linkage metric. Usually, the <span class="name">Euclidean</span> serves as the distance metric, and a popular choice for the linkage is <span class="name">Ward's</span> criterion, presented by Joe H. Ward, Jr. (1963). Ward's minimizes <span class="name">within-cluster variance</span>, such that it finds</p>
+
+$$\mathrm{min} \left[d_{ij} = ||X_i - X_j||^2\right]$$
+
+<p>where \(d\) is a point or cluster, and \(i,\ j = 1, \dots, n\). Clusters with the minimum variance between them are merged.</p>
+
+<h2>Cutting</h2>
+
+<p>The optimal number of clusters is often found by observing the longest uninterrupted distance in a dendrogram. This can be done visually, although it is also possible to automate it -- but doing it manually may be more clarifying. The tree is "cut" horizontally across this distance, and the number of lines intersecting the cut can be the optimal number of clusters. The tree above the cut is kept.</p>

@@ -9,7 +9,7 @@ X = df.iloc[:, :].values
 
 # Find inertia of each of k clusters
 from sklearn.cluster import KMeans
-max_clusters = 10
+max_clusters = 50
 wcss = []
 for i in range(1, max_clusters + 1):
 	model = KMeans(n_clusters=i)
@@ -18,11 +18,16 @@ for i in range(1, max_clusters + 1):
 
 # Find optimal number of clusters using elbow method
 # Difference in slope on either side of a point is the elbow
-delta_wcss = []
-for i in range(1, max_clusters - 2):
-	delta_wcss = (wcss[i-1] - wcss[i]) - (wcss[i] - wcss[i+1])
+delta_wcss = [None] * (max_clusters-1)
+for i in range(delta_wcss):
+	delta_wcss[i] = wcss[i] - wcss[i+1]
 
-best_k = delta_wcss.index(max(delta_wcss)) + 1
+biggest_ratio = [None] * (len(delta_wcss)-4)
+for i in range(biggest_ratio):
+	biggest_ratio[i] = np.mean(delta_wcss[i:(i+3)]) - 
+										 np.mean(delta_wcss[(i+2):(i+5)])
+
+best_k = biggest_ratio.index(max(biggest_ratio)) + 3
 
 # Plot elbow to confirm
 import matplotlib.pyplot as plt
