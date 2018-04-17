@@ -1,0 +1,105 @@
+<table>
+	<tr>
+		<th class="pros">Pros</th>
+		<th class="cons">Cons</th>
+	</tr>
+	<tr>
+		<td class="pros">Closed form solution, efficient, more stable than logistic regression, no hyperparameters.</td>
+		<td class="cons">Lots of assumptions, including homoscedasticity and multivariate normality. Feature reduction only works for classification.</td>
+	</tr>
+</table>
+
+<h2>A Classifier with a Different Use</h2>
+
+<p>LDA finds a linear combination of features that characterizes events, given classes. That is, it is a classifier that reduces features in the process, and is more commonly used for the latter. It is somewhat related to <span class="name">analysis of variance (ANOVA)</span> in that it attempts to identify dependent features as linear combinations of other features. As such, to ensure determination, it reduces a dataset to \(k-1\) features by default, where \(k\) is the number of classes.</p>
+
+<p>As a classifier, it is similar to <span class="name">logistic regression</span>. It is better in some ways, but more restrictive. It is, for example, more stable when the response variable is very separated, or when the distributions are Gaussian and the dataset is relatively small. It may also be preferred when there are multiple non-ordinal response classes. However, it requires that the number of features be less than the number of samples. A rule of thumb is to use LDA when \(n \geq 5m\), when \(n\) is the number of samples, and \(m\) is the number of features (<a href="http://uc-r.github.io/discriminant_analysis">(source)</a>). Moreover, it has all of the same assumptions as linear regression and ANOVA:
+	<ul>
+		<li>Homoscedasticity - Similar variances across different features.</li>
+		<li>Mulicolinearity - Features should be relatively independent.</li>
+		<li>Independence of samples - Samples should not be dependent on other samples.</li>
+		<li>Multivariate normality - Classes should be relative Gaussian.</li>
+	</ul>
+</p>
+
+<p>Since these assumptions are rarely met, logistic regression is the more popular choice. There is a polynomial variant of LDA called <span class="name">quadratic discriminant analysis (QDA)</span> that ameliorates some of these concerns. However, it is more complex, and susceptible to variance, or overfitting. QDA can be used, in Python, with the <span class="code">sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis</span> class, and in R, with the <span class="code">qda</span> constructor under the <span class="code">MASS</span> library.</p>
+
+<h2>Finding the Decision Boundary on Normal Distributions</h2>
+
+<p>Given two classes \(C=0,1\) with Gaussian distributions proportional to \(\mathcal{N}(\mu, \sigma^2)\), our <span class="name">maximum a posteriori (MAP)</span> decision rule is the form of \(\hat{H}=1\) if \(P_{C|X}(0|x) > P_{C|X}(1|x)\). Let the <span class="name">a priori</span> be \(P_C(1) = p\) and \(P_C(0) = 1-p\). Using Bayes' Theorem, this is</p>
+
+$$
+\begin{align}
+P_{C|X}(1|x) & > P_{C|X}(0|x) \\
+\frac{f_{X|C}(x|1)P_C(1)}{f_X(x)} & > \frac{f_{X|C}(x|0)P_C(0)}{f_X(x)} \\
+f_{X|C}(x|1)P_C(1) & > f_{X|C}(x|0)P_C(0)
+\end{align}
+$$
+
+<p>Since the Gaussian distribution is on both sides, we let \(\Sigma\) be the covariance matrix, and</p>
+
+$$
+\begin{align}
+\frac{1}{\sqrt{(2\pi)^k |\Sigma_1|}} e^{-\frac{1}{2}(x-\mu_1)^T \Sigma^{-1}_1 (x - \mu_1)}P_C(1) & > \frac{1}{\sqrt{(2\pi)^k |\Sigma_0|}} e^{-\frac{1}{2}(x-\mu_0)^T \Sigma^{-1}_0 (x - \mu_0)}P_C(0) \\
+\frac{1}{\sqrt{(2\pi)^k |\Sigma_1|}} e^{-\frac{1}{2}(x-\mu_1)^T \Sigma^{-1}_1 (x - \mu_1)}p & > \frac{1}{\sqrt{(2\pi)^k |\Sigma_0|}} e^{-\frac{1}{2}(x-\mu_0)^T \Sigma^{-1}_0 (x - \mu_0)}(1-p)
+\end{align}
+$$
+
+<p>We take the natural log of both sides, and simplify the coefficients \(\frac{1}{\sqrt{(2\pi)^k | \Sigma |}} = K\) to get</p>
+
+$$
+\begin{align}
+K_1 - \frac{1}{2}(x - \mu_1)^T \Sigma^{-1}_1 (x - \mu_1) + \mathrm{ln}(p) & > K_0 - \frac{1}{2}(x - \mu_0)^T \Sigma^{-1}_0 (x - \mu_0) + \mathrm{ln}(1-p) \\
+K_1 - \frac{1}{2} x^T \Sigma^{-1}_1 x + \mu^T_1 \Sigma^{-1}_1 x + \frac{1}{2} \mu^T_1 \Sigma^{-1}_1 \mu_1 + \mathrm{ln}(p) & > K_0 - \frac{1}{2} x^T \Sigma^{-1}_0 x + \mu^T_0 \Sigma^{-1}_0 x + \frac{1}{2} \mu^T_0 \Sigma^{-1}_0 \mu_0 + \mathrm{ln}(1-p)
+\end{align}
+$$
+
+<p>Finally, we move everything to the left and regroup</p>
+
+$$
+\begin{align}
+x^T \frac{1}{2}\left(\Sigma^{-1}_0 - \Sigma^{-1}_1\right) x + \left(\mu^T_1 \Sigma^{-1}_1 - \mu^T_0 \Sigma^{-1}_0\right)x & > \frac{1}{2} \mu^T_1 \Sigma^{-1}_1 \mu_1 - \frac{1}{2} \mu^T_0 \Sigma^{-1}_0 \mu_0 - K_1 + K_0 - \mathrm{ln}\left(\frac{p}{1-p}\right) \\
+x^T A x + w^T x & > b
+\end{align}
+$$
+
+<p>where \(A\) is the quadratic term, \(w^T\) is the linear term, and \(b\) is the constant.</p>
+
+$$
+\begin{align}
+A &= \frac{1}{2}\left(\Sigma^{-1}_0 - \Sigma^{-1}_1\right) \\
+w^T &= \mu^T_1 \Sigma^{-1}_1 - \mu^T_0 \Sigma^{-1}_0 \\
+b &= \frac{1}{2} \mu^T_1 \Sigma^{-1}_1 \mu_1 - \frac{1}{2} \mu^T_0 \Sigma^{-1}_0 \mu_0 - K_1 + K_0 - \mathrm{ln}\left(\frac{p}{1-p}\right)
+\end{align}
+$$
+
+<p>The result is the quadratic discriminant analysis (QDA) decision rule for predicting \(\hat{H} = 1\). If we assume <span class="name">homoscedasticity</span>, such that the variances of each distribution are equivalent, then \(\Sigma_1 = \Sigma_0\), and it simplifies to</p>
+
+$$
+\begin{align}
+\left(\mu^T_1 - \mu^T_0 \right)\Sigma^{-1}x & > \frac{1}{2} \mu^T_1 \Sigma^{-1} \mu_1 - \frac{1}{2} \mu^T_0 \Sigma^{-1} \mu_0 - K_1 + K_0 + \mathrm{ln}\left(\frac{p}{1-p}\right) \\
+w^T x & > b
+\end{align}
+$$
+
+<p>This is the linear discriminant analysis (LDA) decision rule for \(\hat{H} = 1\). Note that once the covariance matrices and their inverses are calculated, the remaining steps are efficient, so LDA is preferable to, for example, non-naive Bayes. Because covariance matrices are necessarily symmetric, they are also positive semi-definite, and invertible. They can also be factored by <span class="name">Cholesky factorization</span>. Or, as in the default for the Python and R libraries, <span class="name">singular value decomposition (SVD)</span> is used to avoid complete factorization of the covariance matrix algoether.</p>
+
+<p>For \(k\) classes, LDA assigns a discriminant score for each example and class, and classifies \(x^{(i)}\) to the class with the largest score.</p>
+
+$$
+\begin{equation}
+\delta_j(x) = x^T \Sigma^{-1} \mu_j - \frac{1}{2} \mu^T_j \Sigma^{-1} - \mu_j + \mathrm{ln}\left(\frac{p}{1-p}\right)
+\end{equation}
+$$
+
+<h2>Dimensionality Reduction</h2>
+
+<p>Since homoscedasticity is assumed with LDA, that all the classes have the same variance, we can scale the entire dataset such that covariance becomes the identity. That is, we want to achieve the covariance <span class="name">U-D factorization</span></p>
+
+$$\Sigma = UDU^T$$
+
+<p>where \(U\) is an upper triangular matrix, and \(D\) is a diagonal matrix. The solution to this problem is</p>
+
+$$X^{*} = D^{-\frac{1}{2}}U^T X$$
+
+<p>Once this is done, a data point is classified by comparing it to the nearest class mean \(\mu^{*}_j\) by Euclidean distance. Therefore, we can linearly project all features onto a \(k-1\) dimensional subspace, that is independent and can fully determine the classes. The dimensionality could be reduced further by projecting on a subspace that maximizes variance, sort of like doing <span class="name">principle component analysis (PCA)</span> on top of the LDA. Python can do this using the <span class="code">n_components</span> parameter.</p>

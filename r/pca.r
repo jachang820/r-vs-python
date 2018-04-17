@@ -34,7 +34,9 @@ for(i in 1:length(variance_ratios)) {
 }
 
 # Linear kernel would use 'vanilladot'
-pca = kpca(groups ~ ., data=train[,-3], kernel='rbfdot', features=pcaComp)
+pca = kpca(groups ~ ., data=train[,-ncol(train)], 
+					 kernel='rbfdot', 
+					 features=pcaComp)
 train_pca = as.data.frame(predict(kpca, train))
 test_pca = as.data.frame(predict(kpca, test))
 train_pca$y = train$y

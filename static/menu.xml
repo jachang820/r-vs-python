@@ -1,110 +1,41 @@
 <menu>
-	<item>
-		<name>home</name>
-		<text>Machine Learning: R vs Python</text>
-	</item>
-	<item>
-		<name>import</name>
-		<text>Import Dataframe</text>
-	</item>
-	<item>
-		<name>impute</name>
-		<text>Impute Missing Values</text>
-	</item>
-	<item>
-		<name>categorical</name>
-		<text>Convert Categorical Feature to Factors</text>
-	</item>
-	<item>
-		<name>splitting</name>
-		<text>K-Folds Cross-Validation on Feature Matrix</text>
-	</item>
-	<item>
-		<name>gridsearch</name>
-		<text>Grid Search to Find Best Hyperparameter</text>
-	</item>
-	<item>
-		<name>scatterplot</name>
-		<text>Scatter plots</text>
-	</item>
-	<item>
-		<name>feature_scaling</name>
-		<text>Feature scaling</text>
-	</item>
-	<item>
-		<name>stepwise</name>
-		<text>Stepwise Regression</text>
-	</item>
-	<item>
-		<name>binarize</name>
-		<text>Binarization</text>
-	</item>
-	<item>
-		<name>confusion</name>
-		<text>Confusion Matrix</text>
-	</item>
-	<item>
-		<name>linreg</name>
-		<text>Linear Regression</text>
-	</item>
-	<item>
-		<name>polyreg</name>
-		<text>Polynomial Regression</text>
-	</item>
-	<item>
-		<name>svreg</name>
-		<text>Support Vector Regression</text>
-	</item>
-	<item>
-		<name>regularize</name>
-		<text>Regularization</text>
-	</item>
-	<item>
-		<name>cartreg</name>
-		<text>Decision Tree Regression</text>
-	</item>
-	<item>
-		<name>randomforest</name>
-		<text>Random Forest Regression</text>
-	</item>
-	<item>
-		<name>logreg</name>
-		<text>Logistic Regression</text>
-	</item>
-	<item>
-		<name>knn</name>
-		<text>k-Nearest Neighbors</text>
-	</item>
-	<item>
-		<name>svc</name>
-		<text>Support Vector Classification</text>
-	</item>
-	<item>
-		<name>naivebayes</name>
-		<text>Naive Bayes</text>
-	</item>
-	<item>
-		<name>cartclass</name>
-		<text>Decision Tree Classification</text>
-	</item>
-	<item>
-		<name>rforestclass</name>
-		<text>Random Forest Classification</text>
-	</item>
-	<item>
-		<name>kmeans</name>
-		<text>k-Means</text>
-	</item>
-	<item>
-		<name>hclust</name>
-		<text>Hierarchical Cluster</text>
-	</item>
-	<item>
-		<name>pca</name>
-		<text>Principle Component Analysis</text>
-	</item>
-	<item>
-		<name>lda</name>
-		<text>Linear Discriminant Analysis</text>
-	</item>
+	<item text="Machine Learning: R vs Python">home</item>
+	<folder text="Preprocessing">
+		<item text="Import Dataframe">import</item>
+		<item text="Impute Missing Values">impute</item>
+		<item text="Convert Categorical Feature to Factors">categorical</item>
+		<item text="Feature Scaling">feature_scaling</item>
+		<item text="Binarization">binarize</item>
+	</folder>
+	<folder text="Improving Models">
+		<item text="K-Folds Cross-Validation on Feature Matrix">splitting</item>
+		<item text="Grid Search to Find Best Hyperparameter">gridsearch</item>
+		<item text="Stepwise Regression">stepwise</item>
+		<item text="Principle Component Analysis">pca</item>
+		<item text="Linear Discriminant Analysis">lda</item>
+		<item text="Regularization">regularize</item>
+		<item text="Confusion Matrix">confusion</item>
+	</folder>
+	<folder text="Visualizations">
+		<item text="Scatter Plots">scatterplot</item>
+	</folder>
+	<folder text="Regression">
+		<item text="Linear Regression">linreg</item>
+		<item text="Polynomial Regression">polyreg</item>
+		<item text="Support Vector Regression">svreg</item>
+		<item text="Decision Tree Regression">cartreg</item>
+		<item text="Random Forest Regression">randomforest</item>
+	</folder>
+	<folder text="Classification">
+		<item text="Logistic Regression">logreg</item>
+		<item text="k-Nearest Neighbors">knn</item>
+		<item text="Support Vector Classification">svc</item>
+		<item text="Naive Bayes">naivebayes</item>
+		<item text="Decision Tree Classification">cartclass</item>
+		<item text="Random Forest Classification">rforestclass</item>
+	</folder>
+	<folder text="Clustering">
+		<item text="k-Means">kmeans</item>
+		<item text="Hierarchical Clustering">hclust</item>
+	</folder>
 </menu>

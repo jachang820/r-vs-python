@@ -12,13 +12,43 @@ var build_nav = function() {
 		})
 		.then(function(xml) { return $.parseXML(xml); })
 		.then(function(menu) {
-			var items = $(menu).find("item");
-			var str = `<ul>`;
-			$(items).each(function(index) {
-				str += `<li onclick="load_topic('${$(this).children('name').text()}')">${$(this).children('text').text()}</li>`;
+			
+			var home = $(menu).children("item");
+			var str = `<ul>\n`;
+			str = `\t<li onclick="load_topic('${$(home).text()}')">${$(home).attr('text')}</li>\n`;
+			str = `</ul>\n`;
+
+			var folders = $(menu).find("folder");
+			$(folders).each(function(index) {
+				str += `<button class="accordian">${$(this).attr('text')}</button>\n`;
+				str += `\t<div class="panel">\n`;
+
+				var items = $(this).find("item");
+				str += `\t\t<ul>\n`;
+				
+				$(items).each(function(index) {
+					str += `\t\t\t<li onclick="load_topic('${$(this).text()}')">${$(this).attr('text')}</li>\n`;
+				});
+
+				str += `\t\t</ul>\n`;
+				str += `\t</div>\n`;
+
 			});
-			str += `</ul>`;
+
 			$('nav').html(str);
+
+			$(".accordian").click(function() {
+				$(this).toggleClass("active");
+				var is_active = $(this).hasClass("active");
+				
+				var panel = $(this).next(".panel");
+
+				if (is_active == true) {
+					$(panel).show();
+				} else {
+					$(panel).hide();
+				}
+			});
 		});
 }
 

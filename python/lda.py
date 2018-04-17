@@ -17,19 +17,12 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
 # Apply LDA
-# Find optimal components with variance ratio
+# By default, it reduces to k-1 components, 
+# where k is the number of classes
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 lda = LinearDiscriminantAnalysis(n_components=None)
 X_train = lda.fit_transform(X_train, y_train)
 X_test = lda.transform(X_test)
 
-threshold = 0.60
-for i in range(len(pca.explained_variance_ratio_)):
-	if np.sum(pca.explained_variance_ratio_[0:(i+1)]) > threshold:
-		ldaComp = i + 1
-		break
-
-# Apply LDA
-pca = PCA(n_components=ldaComp)
-X_train = pca.fit_transform(X_train)
-X_test = pca.transform(X_test)
+# LDA can classify data using posteriors
+y_pred = np.max(lda.decision_function(), 1)

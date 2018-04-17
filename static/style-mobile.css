@@ -53,12 +53,24 @@
 
 	nav {
 		position: absolute;
-		height: 80vh;
-		width: 100vh;
-		top: 5vh;
+		height: 73vh;
+		width: 100vw;
+		top: 7vh;
 		left: 0px;
 		display: none;
 		word-wrap: break-word;
+		overflow-y: scroll;
+		border-bottom: 1px solid black
+	}
+
+	nav .accordian {
+		margin-left: 2vw;
+		width: 90vw;
+	}
+
+	nav .panel {
+		margin-left: 4vw;
+		width: 86vw;
 	}
 
 	nav ul li:hover {

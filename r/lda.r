@@ -14,8 +14,17 @@ test = subset(df, split == FALSE)
 train[, -ncol(train)] = scale(train[, -ncol(train)])
 test[, -ncol(test)] = scale(test[, -ncol(test)])
 
-# Apply LDA
+# Functions to support Venables and Ripley
+# "Modern Applied Staitstics with S" (2002)
 install.packages('MASS')
 library(MASS)
+
+# Apply LDA
 lda = lda(groups ~ ., data=train)
-train = as.data.frame(predict(lda, train))
+train_lda = predict(lda, train)
+train = as.data.frame(cbind(train_lda$x, train_lda$class))
+test_lda = predict(lda, test)
+test = as.data.frame(cbind(test_lda$x, test_lda$class))
+
+# LDA can classify data using posteriors
+y_pred = apply(test_lda$posterior, 1, which.max)
