@@ -1,5 +1,7 @@
 <menu>
-	<item text="Machine Learning: R vs Python">home</item>
+	<folder text="Home">
+		<item text="Machine Learning: R vs Python">home</item>
+	</folder>
 	<folder text="Preprocessing">
 		<item text="Import Dataframe">import</item>
 		<item text="Impute Missing Values">impute</item>

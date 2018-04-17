@@ -13,10 +13,7 @@ var build_nav = function() {
 		.then(function(xml) { return $.parseXML(xml); })
 		.then(function(menu) {
 			
-			var home = $(menu).children("item");
-			var str = `<ul>\n`;
-			str = `\t<li onclick="load_topic('${$(home).text()}')">${$(home).attr('text')}</li>\n`;
-			str = `</ul>\n`;
+			var str = "";
 
 			var folders = $(menu).find("folder");
 			$(folders).each(function(index) {

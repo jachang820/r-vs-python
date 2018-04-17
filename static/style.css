@@ -61,11 +61,11 @@ td {
 
 .cons {
 	width: 30vw;
-	background-color: #ffcccc;
+	background-color: #fcc;
 }
 
 	nav .accordian {
-		background-color: #eee;
+		background-color: #ddd;
 		cursor: pointer;
 		text-align: left;
 		border: 1px solid black;
@@ -79,11 +79,11 @@ td {
 	nav .active {
 		border-bottom-left-radius: 0px;
 		border-bottom-right-radius: 0px;
-		background-color: #bbb;
+		background-color: #baa;
 	}
 
 	nav .accordian:hover {
-		background-color: #bbb;
+		background-color: #cbb;
 	}
 
 	nav .panel {
@@ -105,12 +105,29 @@ td {
 		margin-left: 0px;
 	}
 
-	nav ul li {
+	nav li {
 		list-style-type: none;
 	}
 
-	nav ul li:hover {
-		background-color: #eee;
+	nav li:nth-child(odd) {
+		background-color: #fee;
+	}
+
+	nav li:nth-child(even) {
+		background-color: #edd;
+	}
+
+	nav li:hover {
+		background-color: #977;
+		color: #fee;
+	}
+
+	#nav-leaf, #nav-arrow {
+		background-color: #dad2d2;
+	}
+
+	#nav-expand, #nav-expand-open {
+		background-color: #e2dddd;
 	}
 
 @media only screen and (min-width: 576px) {
@@ -124,7 +141,6 @@ td {
 		position: fixed;
 		height: 100vh;
 		width: 300px;
-		background-color: white;
 		border-right: 1px solid black;
 		box-shadow: 10px 0px 5px grey;
 		top: 0px;
@@ -137,8 +153,6 @@ td {
 		position: absolute;
 		height: 100vh;
 		width: 50px;
-		background-color: #fee;
-		box-shadow: -5px 0px 5px #fee;
 		top: 0px;
 		left: 250px;
 	}
@@ -147,7 +161,7 @@ td {
 		height: 30px;
 		width: 30px;
 		position: absolute;
-		top: calc(50% - 30px);
+		top: calc(50% - 15px);
 		left: 10px;
 		transition: transform 2s;
 		transform: rotate(0deg);
@@ -157,7 +171,6 @@ td {
 		position: fixed;
 		height: 100vh;
 		width: 300px;
-		background-color: white;
 		border-right: 1px solid black;
 		top: 0px;
 		left: 0px;

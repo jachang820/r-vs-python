@@ -14,25 +14,27 @@
 		position: absolute;
 		height: 7vh;
 		width: 100vw;
-		background-color: #fee;
 		border-right: 1px solid black;
 		box-shadow: 0px 10px 5px grey;
+		z-index: 100;
 		top: 0px;
 		left: 0px;
-		z-index: 100;
 		transition: height 2s, box-shadow 2s;
 	}
 
 	#nav-leaf {
 		position: relative;
-		left: calc(50% - 2.5vh);
-		top: 1vh;
-		height: 5vh;
-		width: 5vh;
-		background-color: #fee;
+		left: 0px;
+		top: 0px;
+		height: 7vh;
+		width: 100vw;
+		z-index: 200;
 	}
 
 	#nav-arrow {
+		position: absolute;
+		left: calc(50% - 2.5vh);
+		top: 1vh;
 		height: 5vh;
 		width: 5vh;
 		transition: transform 2s;
@@ -43,7 +45,6 @@
 		position: fixed;
 		height: 80vh;
 		width: 100vw;
-		background-color: #fee;
 		border-right: 1px solid black;
 		top: 0px;
 		left: 0px;
@@ -71,10 +72,6 @@
 	nav .panel {
 		margin-left: 4vw;
 		width: 86vw;
-	}
-
-	nav ul li:hover {
-		background-color: #eee;
 	}
 
 	.title {
