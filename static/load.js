@@ -1,4 +1,3 @@
-var title = "Machine Learning: R vs Python";
 var menu_timeout;
 var menu_is_open = false;
 var MOBILE_WIDTH = 576;
@@ -24,7 +23,7 @@ var build_nav = function() {
 				str += `\t\t<ul>\n`;
 				
 				$(items).each(function(index) {
-					str += `\t\t\t<li onclick="load_topic('${$(this).text()}')">${$(this).attr('text')}</li>\n`;
+					str += `\t\t\t<li onclick="load_topic('${$(this).text()}', '${$(this).attr('text')}')">${$(this).attr('text')}</li>\n`;
 				});
 
 				str += `\t\t</ul>\n`;
@@ -49,7 +48,7 @@ var build_nav = function() {
 		});
 }
 
-var load_topic = function(topic) {
+var load_topic = function(topic, title) {
 
 	if (menu_is_open) {
 		expand_menu();
@@ -60,6 +59,9 @@ var load_topic = function(topic) {
 					"r/" + topic + ".r",
 					"python/" + topic + ".py",
 					"tensorflow/" + topic + ".py"];
+
+	window.history.pushState({'topic': topic, 'title': title}, 
+														null, '#' + topic);
 
 	Promise.all(urls.map(function(url) {
 
@@ -102,6 +104,10 @@ var add_lang = function(content, language, title) {
 var expand_menu = function() {
 	if (!menu_is_open) {
 		$('#nav-expand').attr('id', 'nav-expand-open');
+		$('#nav-leaf').removeClass('leaf-closed');
+		$('#nav-leaf').addClass('leaf-open');
+		$('#nav-arrow').removeClass('leaf-closed');
+		$('#nav-arrow').addClass('arrow-open');
 		if ($(window).width() > MOBILE_WIDTH) {
 			$('#nav-arrow').css("transform", "rotate(180deg)");
 		} else {
@@ -114,6 +120,10 @@ var expand_menu = function() {
 
 	} else {
 		$('#nav-expand-open').attr('id', 'nav-expand');
+		$('#nav-leaf').removeClass('leaf-open');
+		$('#nav-leaf').addClass('leaf-closed');
+		$('#nav-arrow').removeClass('arrow-open');
+		$('#nav-arrow').addClass('arrow-closed');
 		if ($(window).width() > MOBILE_WIDTH) {
 			$('#nav-arrow').css("transform", "rotate(0deg)");
 		} else {
@@ -132,11 +142,17 @@ var close_menu = function() {
 
 $(document).ready(function() {
 	build_nav();
-	load_topic('home');
+	load_topic('home', 'Machine Learning: R vs Python');
 });
 
-$(document).click(function(event) {
-	title = $(event.target).text();
+$(window).bind('hashchange', function() {
+	if (window.history.state != null) {
+		var topic = window.history.state.topic; 
+		var title = window.history.state.title;
+		load_topic(topic, title);
+	} else {
+		load_topic('home');
+	}
 });
 
 $(window).resize(function() {

@@ -122,12 +122,16 @@ td {
 		color: #fee;
 	}
 
-	#nav-leaf, #nav-arrow {
-		background-color: #dad2d2;
+	.leaf-closed, .arrow-closed {
+		background-color: #e8e1e1;
+	}
+
+	.leaf-open, .arrow-open {
+		background-color: #d6b4b4;
 	}
 
 	#nav-expand, #nav-expand-open {
-		background-color: #e2dddd;
+		background-color: #ecc;
 	}
 
 @media only screen and (min-width: 576px) {
@@ -155,6 +159,7 @@ td {
 		width: 50px;
 		top: 0px;
 		left: 250px;
+		transition: background-color 2s;
 	}
 
 	#nav-arrow {
