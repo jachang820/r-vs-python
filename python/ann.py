@@ -34,8 +34,25 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
 # Keras is a high-level wrapper around Tensorflow
-import keras
 from keras.models import Sequential
 from keras.layers import Dense
 
-# Initialize neural network
+# Initialize neural network and add layers
+model = Sequential()
+model.add(Dense(output_dim=6, activation='relu', input_dim=11))
+model.add(Dense(output_dim=6, activation='relu'))
+model.add(Dense(output_dim=1, activation='sigmoid'))
+model.compile(optimizer='adam', 
+							loss='binary_crossentropy', 
+							metric=['accuracy'])
+
+# Fit neural network to training set
+model.fit(X_train, y_train, batch_size=10, nb_epoch=100)
+
+# Predict test set
+y_pred = model.predict(X_test)
+y_pred = (y_pred > 0.5)
+
+# Make confusion matrix
+from sklearn.metrics import confusion_matrix
+conf = confusion_matrix(y_test, y_pred)

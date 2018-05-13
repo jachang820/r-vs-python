@@ -130,6 +130,10 @@ td {
 		background-color: #d6b4b4;
 	}
 
+	#nav-leaf {
+		transition: background-color 2s;
+	}
+
 	#nav-expand, #nav-expand-open {
 		background-color: #ecc;
 	}
@@ -159,7 +163,6 @@ td {
 		width: 50px;
 		top: 0px;
 		left: 250px;
-		transition: background-color 2s;
 	}
 
 	#nav-arrow {
